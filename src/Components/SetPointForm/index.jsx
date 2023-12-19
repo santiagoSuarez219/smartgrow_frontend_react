@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const SetPointForm = () => {
   const { setOpenModal, valueModal } =
     useContext(SmartgrowContext);
 
-  const [newValue, setNewValue] = React.useState("");
+  const [newValue, setNewValue] = useState("");
 
   const onSubmit = (event) => {
     event.preventDefault();
