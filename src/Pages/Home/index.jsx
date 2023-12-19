@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Navbar from "../../Components/Navbar";
 import CardCultivo from "../../Components/CardCultivo";
 import Layout from "../../Components/Layaout";

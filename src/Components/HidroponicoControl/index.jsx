@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import ButtonIcon from "../ButtonIcon/ButtonIcon";
 import { PiPlant } from "react-icons/pi";
 import { WiLightning } from "react-icons/wi";
