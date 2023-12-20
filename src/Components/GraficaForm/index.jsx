@@ -37,25 +37,24 @@ const GraficaForm = ({ filter_data }) => {
   const [scale, setScale] = useState("day");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/scd40?data=${filter_data}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setDataInit(data);
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching scd40 data:", error);
-      });
-
-    fetch(`http://localhost:3000/sensores`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSensors(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching sensors data:", error);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const scd40Response = await fetch(`http://localhost:3000/scd40?data=${filter_data}`);
+        const scd40Data = await scd40Response.json();
+        setDataInit(scd40Data);
+        setData(scd40Data);
+  
+        const sensorsResponse = await fetch(`http://localhost:3000/sensores`);
+        const sensorsData = await sensorsResponse.json();
+        setSensors(sensorsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [ filter_data ]);
+  
 
   const filterData = () => {
     setData(dataInit);
@@ -103,31 +102,19 @@ const GraficaForm = ({ filter_data }) => {
     },
   };
 
-  const handleDateInit = (e) => {
-    setDateInit(e.target.value);
-  };
-
-  const handleDateEnd = (e) => {
-    setDateEnd(e.target.value);
-  };
-
-  const handleSensor = (e) => {
-    setSensor(e.target.value);
-  };
-
-  const handleScale = (e) => {
-    setScale(e.target.value);
+  const handleDateChange = (setter) => (e) => {
+    setter(e.target.value);
   };
 
   return (
     <GraficaFormUI 
       filter_data={filter_data}
       sensor={sensor}
-      handleSensor={handleSensor}
+      handleSensor={handleDateChange(setSensor)}
       sensors={sensors}
-      handleDateInit={handleDateInit}
-      handleDateEnd={handleDateEnd}
-      handleScale={handleScale}
+      handleDateInit={handleDateChange(setDateInit)}
+      handleDateEnd={handleDateChange(setDateEnd)}
+      handleScale={handleDateChange(setScale)}
       scale={scale}
       chartData={chartData}
       options={options}
