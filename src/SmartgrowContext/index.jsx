@@ -23,6 +23,7 @@ function SmartgrowProvider({ children }) {
   const [setPointPh, setSetPointPh ] = useState(0);
   const [setPointEc, setSetPointEc ] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalGrafica, setOpenModalGrafica] = useState(false);
   const [valueModal, setValueModal] = useState("");
 
   const handleMqttMessage = (data) => {
@@ -84,7 +85,9 @@ function SmartgrowProvider({ children }) {
         openModal,
         setOpenModal,
         valueModal,
-        setValueModal
+        setValueModal,
+        openModalGrafica,
+        setOpenModalGrafica,
       }}
     >
       {children}

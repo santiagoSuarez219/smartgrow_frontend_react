@@ -12,7 +12,7 @@ const SystemStatus = () => {
   } = useContext(SmartgrowContext);
 
   return (
-    <div className="w-full h-3 mt-2 flex justify-between">
+    <div className="w-full h-auto mt-2 flex justify-between">
       <div className="flex items-center">
         {statusWaterInlet && (
           <AiFillCheckCircle className="h-3 w-3 text-secondary" />
