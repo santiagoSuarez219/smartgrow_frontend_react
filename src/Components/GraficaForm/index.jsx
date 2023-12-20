@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { DateTime } from "luxon";
+import { HiOutlineX } from "react-icons/hi";
 import "chartjs-adapter-luxon";
 
 import {
@@ -116,10 +117,10 @@ const GraficaForm = ({ filter_data }) => {
 
   const handleScale = (e) => {
     setScale(e.target.value);
-  }
+  };
 
   return (
-    <div className="w-auto h-auto p-4 bg-quartiary rounded-lg shadow-lg flex flex-col space-y-2 justify-center items-center">
+    <div className="w-auto h-auto p-4 relative bg-quartiary rounded-lg shadow-lg flex flex-col space-y-2 justify-center items-center">
       <h1 className="text-lg font-semibold">Grafica de {filter_data}</h1>
       <form action="" className="w-full flex space-x-4">
         <div className="flex space-x-2 items-center">
@@ -158,23 +159,35 @@ const GraficaForm = ({ filter_data }) => {
             id=""
           />
         </div>
-        <div>
-          <button type="button" className="bg-green-300" onClick={filterData}>
-            Enviar
+        <div className="w-full flex justify-end">
+          <button
+            type="button"
+            className="border-2 border-primary p-2 rounded-lg hover:bg-primary hover:text-white"
+            onClick={filterData}
+          >
+            Actualizar
           </button>
-        </div>
-        <div>
-            <label className="">Escala: </label>
-            <select name="escalaGrafica" value={scale} onChange={handleScale}>
-                <option option value="hour">hora</option>
-                <option value="day">dia</option>
-                <option value="week">semana</option>
-                <option value="month">mes</option>
-                <option value="year">anio</option>
-            </select>
         </div>
       </form>
       <Line data={chartData} options={options} />
+      <div className="w-full mt-2 flex justify-end space-x-2">
+        <label className="font-semibold">Escala: </label>
+        <select
+          name="escalaGrafica"
+          className="bg-white rounded-sm"
+          value={scale}
+          onChange={handleScale}
+        >
+          <option option value="hour">
+            hora
+          </option>
+          <option value="day">dia</option>
+          <option value="week">semana</option>
+          <option value="month">mes</option>
+          <option value="year">anio</option>
+        </select>
+      </div>
+      <HiOutlineX className="w-9 h-9 p-2 bg-red-500 text-white cursor-pointer rounded-full absolute -right-3 -top-5 "/>
     </div>
   );
 };
