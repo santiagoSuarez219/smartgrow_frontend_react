@@ -11,9 +11,9 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 const CardHidroponico = () => {
   const { temperaturaAgua, ph, ec, nivelAgua } = useContext(SmartgrowContext);
   return (
-    <div className="flex w-full flex-col p-2 shadow">
-      <div className="h-1/7 px-2 flex justify-between items-center">
-        <p className="font-bold text-lg">Hidroponico</p>
+    <div className="flex w-full flex-col p-2 shadow-xl rounded-lg lg:w-1/3">
+      <div className="h-1/7 flex justify-between items-center">
+        <p className="font-bold text-lg lg:text-3xl">Hidroponico</p>
         <WiRaindrop className="text-blue-900 w-8 h-8" />
       </div>
       <VariableSensor
