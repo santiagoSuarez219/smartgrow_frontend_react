@@ -6,7 +6,8 @@ const useMqtt = (topic) => {
   const [message, setMessage] = useState(null);
   const [connectStatus, setConnectStatus] = useState(false);
 
-  const mqttBrokerUrl = "ws://localhost:8083/mqtt";
+  const mqttBrokerUrl = "ws://200.122.207.134:8314/mqtt"; //8314
+  //200.122.207.134
 
   const mqttConnect = () => {
     setConnectStatus("Connecting");
@@ -66,7 +67,7 @@ const useMqtt = (topic) => {
     }
   };
 
-  return { message, connectStatus, mqttConnect, mqttPublish};
+  return { message, connectStatus, mqttConnect, mqttPublish };
 };
 
 export { useMqtt };
