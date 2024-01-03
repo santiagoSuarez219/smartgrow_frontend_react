@@ -53,6 +53,7 @@ const SetPointForm = () => {
       </div>
       <div className="w-full flex justify-end">
         <button
+          type="submit"
           className="w-1/2 border-2 border-primary p-2 rounded-md text-sm text-secondary"
           onClick={() => {
             Swal.fire({
@@ -63,12 +64,14 @@ const SetPointForm = () => {
               confirmButtonColor: "#6A994E",
               cancelButtonColor: "#BC4749",
               confirmButtonText: "Si, modificar",
+              position: "bottom",
             }).then((result) => {
               if (result.isConfirmed) {
                 Swal.fire({
                   title: "¡Cambiando el valor del PH!",
                   text: "Estamos cambiando el valor del PH",
                   timer: 3000,
+                  position: "bottom",
                   timerProgressBar: true,
                   didOpen: () => {
                     Swal.showLoading();
@@ -79,6 +82,9 @@ const SetPointForm = () => {
                     text: "El valor del PH fue modificado",
                     icon: "success",
                     confirmButtonColor: "#6A994E",
+                    position: "bottom",
+                  }).then(() => {
+                    setOpenModalControl(false);
                   });
                 });
               }
