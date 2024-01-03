@@ -3,7 +3,6 @@ import { useContext } from "react";
 import Layout from "../../Components/Layaout";
 import Navbar from "../../Components/Navbar";
 import SystemStatusBar from "../../Components/SystemStatusBar";
-import CardSmartgrow from "../../Components/CardSmartgrow";
 import SetPointForm from "../../Components/SetPointForm";
 import TabBar from "../../Components/TabBar";
 import { SmartgrowContext } from "../../SmartgrowContext";
@@ -29,10 +28,6 @@ function Home() {
           <SystemStatusBar text="MQTT" status={statusMqtt} />
         </section>
         <TabBar />
-        <section className="cultivo-section overflow-y-scroll flex flex-col space-y-4">
-          <CardSmartgrow />
-          <CardSmartgrow />
-        </section>
       </Layout>
       {openModal && (
         <Modal>
