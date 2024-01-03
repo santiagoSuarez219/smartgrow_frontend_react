@@ -1,7 +1,6 @@
 import React from "react";
 
 import CardSmartgrow from "../../Components/CardSmartgrow";
-import Layout from "../../Components/Layaout";
 
 const Cultivo = () => {
   return (

@@ -5,6 +5,7 @@ import Navbar from "../../Components/Navbar";
 import SystemStatusBar from "../../Components/SystemStatusBar";
 import SetPointForm from "../../Components/SetPointForm";
 import TabBar from "../../Components/TabBar";
+import StatusBarFooter from "../../Components/StatusBarFooter";
 import { SmartgrowContext } from "../../SmartgrowContext";
 import { Modal } from "../../Modal";
 import "./styles.css";
@@ -27,8 +28,10 @@ function Home() {
           <SystemStatusBar text="Recirculacion" status={statusRecirculation} />
           <SystemStatusBar text="MQTT" status={statusMqtt} />
         </section>
-        <TabBar />
+        <StatusBarFooter />
       </Layout>
+
+      <TabBar />
       {openModal && (
         <Modal>
           <SetPointForm />
