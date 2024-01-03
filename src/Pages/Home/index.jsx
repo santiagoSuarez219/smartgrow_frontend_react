@@ -3,6 +3,7 @@ import { useContext } from "react";
 import Layout from "../../Components/Layaout";
 import Navbar from "../../Components/Navbar";
 import SystemStatusBar from "../../Components/SystemStatusBar";
+import ActuadoresButtons from "../../Components/ActuadoresButtons";
 import SetPointForm from "../../Components/SetPointForm";
 import TabBar from "../../Components/TabBar";
 import StatusBarFooter from "../../Components/StatusBarFooter";
@@ -12,7 +13,8 @@ import "./styles.css";
 
 function Home() {
   const {
-    openModal,
+    openModalActuadores,
+    openModalControl,
     statusRecirculation,
     statusWaterInlet,
     statusWaterOutlet,
@@ -32,7 +34,12 @@ function Home() {
       </Layout>
 
       <TabBar />
-      {openModal && (
+      {openModalActuadores && (
+        <Modal>
+          <ActuadoresButtons />
+        </Modal>
+      )}
+      {openModalControl && (
         <Modal>
           <SetPointForm />
         </Modal>

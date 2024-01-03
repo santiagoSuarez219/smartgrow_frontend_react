@@ -2,7 +2,7 @@ import React from "react";
 
 const StatusBarFooter = () => {
   return (
-    <div className="w-full px-4 fixed bottom-20 z-50">
+    <div className="w-full px-4 fixed bottom-20 z-20">
       <div className="bg-slate-400 px-2 py-0.5 rounded-md flex justify-between">
         <p className="text-base font-semibold">
           16 <span className="font-normal">Recirculaciones</span>
