@@ -1,6 +1,7 @@
 import { useRoutes, BrowserRouter } from "react-router-dom";
 import { SmartgrowProvider } from "../../SmartgrowContext";
 import Home from "../Home";
+import Hidroponico from "../Hidroponico";
 import NotFound from "../NotFound";
 
 const AppRoutes = () => {
@@ -8,6 +9,10 @@ const AppRoutes = () => {
     {
       path: '/',
       element: <Home />,
+    },
+    {
+      path: '/hidroponico',
+      element: <Hidroponico />
     },
     {
       path: '/*',

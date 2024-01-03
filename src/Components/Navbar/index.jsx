@@ -4,13 +4,12 @@ import { RiPlantLine } from "react-icons/ri";
 const Navbar = () => {
   return (
     <>
-      <nav className='bg-secondary rounded h-8 w-full flex items-center justify-center'>
+      <nav className="bg-tertiary rounded-md mb-4 h-8 w-full flex items-center justify-center">
         <ul>
-          <li className='flex items-center'>
+          <li>
             <NavLink to="/">
-                <h1 className='font-bold text-lg mr-1'>Smartgrow</h1>
+              <h1 className="font-bold text-lg text-primary">Smartgrow</h1>
             </NavLink>
-            <RiPlantLine className="w-6 h-6 text-green-900" />
           </li>
         </ul>
       </nav>
@@ -18,4 +17,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar
+export default Navbar;

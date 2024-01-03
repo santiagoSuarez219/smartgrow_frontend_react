@@ -7,12 +7,11 @@ export default {
   theme: {
     extend: {
       colors:{
-        primary:'#386641',
-        secondary: '#6A994E',
-        tertiary: '#A7C957',
-        quartiary: '#F2E8Cf',
-        quintenary: '#BC4749',
-        input: '#F7F7F7'
+        primary:'#6A994E',
+        secondary: '#A7C957',
+        tertiary: '#F2E8CF',
+        quartiary: '#BC4749',
+        quintenary: '#F7F7F7'
       },
       fontFamily:{
         primary:['Quicksand','sans-serif']
