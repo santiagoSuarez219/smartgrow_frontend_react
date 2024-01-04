@@ -17,7 +17,7 @@ const TabBar = () => {
   const activeStyle = "text-primary flex flex-col items-center";
   const deactiveStyle = "text-primary/50 flex flex-col items-center";
   return (
-    <div className="w-full h-16 bg-white fixed left-0 bottom-0 shadow-md flex items-center justify-around z-20">
+    <div className="w-full h-16 bg-white fixed left-0 bottom-0 shadow-md flex items-center justify-around z-20 lg:hidden">
       <NavLink
         to="/"
         className={({ isActive }) =>
