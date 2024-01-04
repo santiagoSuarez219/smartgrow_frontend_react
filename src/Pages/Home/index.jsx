@@ -22,8 +22,12 @@ function Home() {
   } = useContext(SmartgrowContext);
   return (
     <>
+      <Navbar />
       <Layout>
-        <Navbar />
+        <div className="bg-tertiary rounded-md mb-4 h-8 w-full flex items-center justify-center lg:hidden">
+          <h1 className="font-bold text-lg text-primary">Smartgrow</h1>
+        </div>
+        {/*  */}
         <section className="w-full mb-4">
           <SystemStatusBar text="Entrada de agua" status={statusWaterInlet} />
           <SystemStatusBar text="Salida de agua" status={statusWaterOutlet} />

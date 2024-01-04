@@ -1,20 +1,50 @@
 import { NavLink } from "react-router-dom";
-import { RiPlantLine } from "react-icons/ri";
 
-const Navbar = () => {
+import { HiCheck } from "react-icons/hi2";
+import { HiMiniXMark } from "react-icons/hi2";
+
+const NavBarDesktop = () => {
   return (
     <>
-      <nav className="bg-tertiary rounded-md mb-4 h-8 w-full flex items-center justify-center">
-        <ul>
+      <nav className="hidden lg:flex w-full h-14 px-6 justify-between">
+        <ul className="flex items-center gap-4">
           <li>
             <NavLink to="/">
-              <h1 className="font-bold text-lg text-primary">Smartgrow</h1>
+              <h1 className="font-bold text-primary text-2xl">Smartgrow</h1>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/">
+              <h2 className="font-medium text-primary text-xl">Cultivo</h2>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/">
+              <h2 className="font-medium text-primary text-xl">Hidroponico</h2>
             </NavLink>
           </li>
         </ul>
+        <div className="text-xl flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <HiCheck className="h-6 w-6 text-secondary" />
+            <p className="text-primary">Entrada de agua</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <HiCheck className="h-6 w-6 text-secondary" />
+            <p className="text-primary">Salida de agua</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            <p className="text-primary">Recirculacion</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            <p className="text-primary">MQTT</p>
+          </div>
+        </div>
       </nav>
     </>
   );
 };
 
-export default Navbar;
+export default NavBarDesktop;
