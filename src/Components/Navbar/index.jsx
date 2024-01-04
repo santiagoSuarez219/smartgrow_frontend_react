@@ -1,9 +1,18 @@
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 
 import { HiCheck } from "react-icons/hi2";
 import { HiMiniXMark } from "react-icons/hi2";
 
+import { SmartgrowContext } from "../../SmartgrowContext";
+
 const NavBarDesktop = () => {
+  const {
+    openModalActuadores,
+    setOpenModalActuadores,
+    openModalControl,
+    setOpenModalControl,
+  } = useContext(SmartgrowContext);
   const activeStyle = "underline underline-offset-2";
   return (
     <>
@@ -25,18 +34,25 @@ const NavBarDesktop = () => {
           <li>
             <NavLink
               to="/hidroponico"
-              className={({ isActive }) => (isActive ? activeStyle : undefined)}
+              className={({ isActive }) =>
+                isActive && !openModalActuadores && !openModalControl
+                  ? activeStyle
+                  : undefined
+              }
             >
               <h2 className="font-medium text-primary text-xl">Hidroponico</h2>
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/sistema"
-              className={({ isActive }) => (isActive ? activeStyle : undefined)}
-            >
-              <h2 className="font-medium text-primary text-xl">Sistema</h2>
-            </NavLink>
+          <li
+            className={openModalActuadores ? activeStyle : undefined}
+            onClick={() => {
+              setOpenModalActuadores((state) => !state);
+              setOpenModalControl(false);
+            }}
+          >
+            <h2 className="font-medium text-primary text-xl cursor-pointer">
+              Actuadores
+            </h2>
           </li>
         </ul>
         <div className="text-xl flex items-center gap-6">
