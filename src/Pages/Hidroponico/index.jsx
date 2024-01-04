@@ -3,7 +3,7 @@ import CardSmartgrow from "../../Components/CardSmartgrow";
 
 const Hidroponico = () => {
   return (
-    <section className="cultivo-section overflow-y-scroll flex flex-col space-y-4 px-4">
+    <section className="cultivo-section overflow-y-scroll flex flex-col space-y-4 px-4 pb-14">
       <CardSmartgrow
         text="Temperatura del agua"
         date="03 Enero, 2024"

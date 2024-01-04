@@ -1,10 +1,11 @@
 import React from "react";
+import "./styles.css";
 
 import CardSmartgrow from "../../Components/CardSmartgrow";
 
 const Cultivo = () => {
   return (
-    <section className="cultivo-section overflow-y-scroll flex flex-col space-y-4 px-4">
+    <section className="cultivo-section overflow-y-scroll flex flex-col space-y-4 px-4 pb-14">
       <CardSmartgrow
         text="Temperatura"
         date="03 Enero, 2024"
