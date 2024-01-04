@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { SmartgrowContext } from "../../SmartgrowContext";
+import { HiXMark } from "react-icons/hi2";
 
 import Swal from "sweetalert2";
 
@@ -24,13 +25,15 @@ const SetPointForm = () => {
 
   return (
     <form
-      className="px-4 pt-4 fixed left-0 bottom-16 bg-white h-64 w-full rounded-t-md shadow flex flex-col gap-4"
+      className="w-full h-64 px-4 pt-4 lg:p-6 fixed left-0 bottom-16 bg-white   rounded-t-md shadow flex flex-col gap-4 lg:relative lg:w-1/3 lg:h-1/3 lg:rounded-xl lg:justify-center"
       onSubmit={onSubmit}
     >
-      <div>
-        <p className="text-sm">Eliga el valor que desea modificar</p>
+      <div className="lg:flex lg:flex-col lg:gap-4">
+        <p className="text-sm lg:text-2xl">
+          Eliga el valor que desea modificar
+        </p>
         <select
-          className="w-1/2 border-2 p-1 rounded-md text-sm text-black text-center"
+          className="w-1/2 border-2 p-1 rounded-md text-sm lg:text-2xl text-black text-center"
           name="control_label"
           id="control_label"
           onChange={(e) => setSetPointLabel(e.target.value)}
@@ -40,7 +43,9 @@ const SetPointForm = () => {
         </select>
       </div>
       <div className="w-full flex flex-col">
-        <p className="text-xs text-primary">El valor actual es 0.32</p>
+        <p className="text-xs lg:text-xl text-primary">
+          El valor actual es 0.32
+        </p>
         <input
           type="number"
           name="value"
@@ -48,13 +53,13 @@ const SetPointForm = () => {
           placeholder="Escriba el valor del SetPoint"
           onChange={onChange}
           value={newValue}
-          className="w-full border-2 border-primary rounded-md p-1 text-sm text-black"
+          className="w-full border-2 lg:border-3 border-primary rounded-md p-1 lg:p-2 text-sm lg:text-2xl text-black"
         />
       </div>
       <div className="w-full flex justify-end">
         <button
           type="submit"
-          className="w-1/2 border-2 border-primary p-2 rounded-md text-sm text-secondary"
+          className="w-1/2 border-2 lg:border-3 border-primary p-2 rounded-md text-sm lg:text-2xl text-secondary lg:hover:bg-primary lg:hover:text-white"
           onClick={() => {
             Swal.fire({
               title: "¿Estas seguro?",
@@ -64,14 +69,12 @@ const SetPointForm = () => {
               confirmButtonColor: "#6A994E",
               cancelButtonColor: "#BC4749",
               confirmButtonText: "Si, modificar",
-              position: "bottom",
             }).then((result) => {
               if (result.isConfirmed) {
                 Swal.fire({
                   title: "¡Cambiando el valor del PH!",
                   text: "Estamos cambiando el valor del PH",
-                  timer: 3000,
-                  position: "bottom",
+                  timer: 2000,
                   timerProgressBar: true,
                   didOpen: () => {
                     Swal.showLoading();
@@ -82,7 +85,6 @@ const SetPointForm = () => {
                     text: "El valor del PH fue modificado",
                     icon: "success",
                     confirmButtonColor: "#6A994E",
-                    position: "bottom",
                   }).then(() => {
                     setOpenModalControl(false);
                   });
@@ -94,6 +96,14 @@ const SetPointForm = () => {
           Enviar
         </button>
       </div>
+      <span
+        className="hidden lg:block absolute -right-5 -top-5 bg-quartiary rounded-full p-1 cursor-pointer hover:bg-quartiary/90"
+        onClick={() => {
+          setOpenModalControl(false);
+        }}
+      >
+        <HiXMark className="w-12 h-12" />
+      </span>
     </form>
   );
 };

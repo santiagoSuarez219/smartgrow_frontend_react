@@ -5,7 +5,7 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 
 import Swal from "sweetalert2";
 
-const ModalButtons = () => {
+const ModalButtons = (callback) => {
   Swal.fire({
     title: "¿Estas seguro?",
     text: "Vas a activar la entrada de agua",
@@ -31,7 +31,7 @@ const ModalButtons = () => {
           icon: "success",
           confirmButtonColor: "#6A994E",
         }).then(() => {
-          setOpenModalControl(false);
+          callback(false);
         });
       });
     }
@@ -47,7 +47,7 @@ const ActuadoresButtons = () => {
         <button
           className="h-full flex justify-center items-center bg-primary rounded-lg hover:bg-primary/90"
           onClick={() => {
-            ModalButtons();
+            ModalButtons(setOpenModalActuadores);
           }}
         >
           <CiPower className="w-12 h-12" />
@@ -58,7 +58,7 @@ const ActuadoresButtons = () => {
         <button
           className="h-full flex justify-center items-center bg-quartiary rounded-md lg:rounded-xl hover:bg-quartiary/90"
           onClick={() => {
-            ModalButtons();
+            ModalButtons(setOpenModalActuadores);
           }}
         >
           <CiPower className="w-12 h-12" />

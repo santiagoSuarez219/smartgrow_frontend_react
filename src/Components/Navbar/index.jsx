@@ -54,6 +54,17 @@ const NavBarDesktop = () => {
               Actuadores
             </h2>
           </li>
+          <li
+            className={openModalControl ? activeStyle : undefined}
+            onClick={() => {
+              setOpenModalControl((state) => !state);
+              setOpenModalActuadores(false);
+            }}
+          >
+            <h2 className="font-medium text-primary text-xl cursor-pointer">
+              Control
+            </h2>
+          </li>
         </ul>
         <div className="text-xl flex items-center gap-6">
           <div className="flex items-center gap-2">
