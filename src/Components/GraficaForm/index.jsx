@@ -6,7 +6,7 @@ import { HiOutlineX } from "react-icons/hi";
 
 const GraficaForm = () => {
   const { setOpenModalGrafica } = useContext(SmartgrowContext);
-  const [selectedTimeRange, setSelectedTimeRange] = useState("ALL");
+  const [data, setData] = useState([]);
   const [endDate, setEndDate] = useState();
   const [chartData, setChartData] = useState({
     series: [
@@ -91,6 +91,7 @@ const GraficaForm = () => {
           parseFloat(item.temperatura.toFixed(2)),
         ]);
         setEndDate(new Date(dataApi[dataApi.length - 1].fecha).getTime());
+        setData(transformedData);
         setChartData((prevChartData) => ({
           ...prevChartData,
           series: [
@@ -115,11 +116,14 @@ const GraficaForm = () => {
   }, []);
 
   const handleTimeRangeChange = (timeRange) => {
-    setSelectedTimeRange(timeRange);
-    console.log(endDate);
-    const filteredData = chartData.series[0].data.filter(
+    const filteredData = data.filter(
       (item) => endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
     );
+    console.log(filteredData);
+
+    // chartData.series[0].data.filter(
+    //   (item) => endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
+    // );
 
     setChartData((prevChartData) => ({
       ...prevChartData,
@@ -132,7 +136,7 @@ const GraficaForm = () => {
         ...prevChartData.options,
         xaxis: {
           ...prevChartData.options.xaxis,
-          min: endDate - getTimeRangeMiliseconds(timeRange),
+          min: new Date(filteredData[0][0]).getTime(),
         },
       },
     }));
@@ -142,6 +146,8 @@ const GraficaForm = () => {
     switch (timeRange) {
       case "1H":
         return 60 * 60 * 1000;
+      case "ALL":
+        return endDate;
     }
   };
 
@@ -158,7 +164,12 @@ const GraficaForm = () => {
         <button>1D</button>
         <button>1S</button>
         <button>1M</button>
-        <button>ALL</button>
+        <button
+          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          onClick={() => handleTimeRangeChange("ALL")}
+        >
+          ALL
+        </button>
       </div>
       <div id="chart-timeline">
         <ReactApexChart
