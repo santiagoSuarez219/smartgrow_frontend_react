@@ -1,9 +1,13 @@
-import React from "react";
+import { useContext } from "react";
 
 import { HiArrowUpRight } from "react-icons/hi2";
 import { CiCalendar } from "react-icons/ci";
 
+import { SmartgrowContext } from "../../SmartgrowContext";
+
 const CardSmartgrow = ({ text, date, hour, value, units }) => {
+  const { setOpenModalGrafica } = useContext(SmartgrowContext);
+
   return (
     <div className="lg:w-[28rem] w-full h-96 lg:h-[28rem] bg-tertiary rounded-md lg:rounded-xl flex flex-col">
       <figure className="w-full h-4/5 relative rounded-t-md lg:rounded-t-xl">
@@ -15,7 +19,12 @@ const CardSmartgrow = ({ text, date, hour, value, units }) => {
           src="./img/temperatura.jpg"
           alt="temperatura"
         />
-        <div className="hidden lg:flex absolute top-0 right-0 justify-center items-center bg-primary w-16 h-16 rounded-full m-4 cursor-pointer">
+        <div
+          className="hidden lg:flex absolute top-0 right-0 justify-center items-center bg-primary w-16 h-16 rounded-full m-4 cursor-pointer"
+          onClick={() => {
+            setOpenModalGrafica(true);
+          }}
+        >
           <HiArrowUpRight className="w-6 h-6" />
         </div>
       </figure>

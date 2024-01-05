@@ -4,7 +4,6 @@ import Home from "../Home";
 import Cultivo from "../Cultivo";
 import Hidroponico from "../Hidroponico";
 import NotFound from "../NotFound";
-import Sistema from "../Sistema";
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -19,10 +18,6 @@ const AppRoutes = () => {
     {
       path: "/*",
       element: <NotFound />,
-    },
-    {
-      path: "/sistema",
-      element: <Sistema />,
     },
   ]);
   return routes;
