@@ -119,11 +119,6 @@ const GraficaForm = () => {
     const filteredData = data.filter(
       (item) => endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
     );
-    console.log(filteredData);
-
-    // chartData.series[0].data.filter(
-    //   (item) => endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
-    // );
 
     setChartData((prevChartData) => ({
       ...prevChartData,
@@ -146,6 +141,14 @@ const GraficaForm = () => {
     switch (timeRange) {
       case "1H":
         return 60 * 60 * 1000;
+      case "6H":
+        return 6 * 60 * 60 * 1000;
+      case "1D":
+        return 24 * 60 * 60 * 1000;
+      case "1S":
+        return 7 * 24 * 60 * 60 * 1000;
+      case "1M":
+        return 30 * 24 * 60 * 60 * 1000;
       case "ALL":
         return endDate;
     }
@@ -160,10 +163,30 @@ const GraficaForm = () => {
         >
           1H
         </button>
-        <button>6H</button>
-        <button>1D</button>
-        <button>1S</button>
-        <button>1M</button>
+        <button
+          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          onClick={() => handleTimeRangeChange("6H")}
+        >
+          6H
+        </button>
+        <button
+          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          onClick={() => handleTimeRangeChange("1D")}
+        >
+          1D
+        </button>
+        <button
+          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          onClick={() => handleTimeRangeChange("1S")}
+        >
+          1S
+        </button>
+        <button
+          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          onClick={() => handleTimeRangeChange("1M")}
+        >
+          1M
+        </button>
         <button
           className="p-2 rounded-lg active:bg-secondary active:text-white"
           onClick={() => handleTimeRangeChange("ALL")}
