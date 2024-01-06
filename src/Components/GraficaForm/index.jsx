@@ -5,9 +5,11 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 import { HiOutlineX } from "react-icons/hi";
 
 const GraficaForm = () => {
+  const styleActivate = "bg-secondary text-white";
   const { setOpenModalGrafica } = useContext(SmartgrowContext);
   const [data, setData] = useState([]);
   const [endDate, setEndDate] = useState();
+  const [timeRange, setTimeRange] = useState("ALL");
   const [chartData, setChartData] = useState({
     series: [
       {
@@ -116,6 +118,7 @@ const GraficaForm = () => {
   }, []);
 
   const handleTimeRangeChange = (timeRange) => {
+    setTimeRange(timeRange);
     const filteredData = data.filter(
       (item) => endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
     );
@@ -158,37 +161,49 @@ const GraficaForm = () => {
     <div className="w-auto h-auto p-4 relative bg-white rounded-lg shadow-lg flex flex-col space-y-2 justify-center items-center">
       <div className="w-full text-xl text-primary flex gap-6 p-2">
         <button
-          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          className={`p-2 rounded-xl ${
+            timeRange === "1H" ? styleActivate : ""
+          }`}
           onClick={() => handleTimeRangeChange("1H")}
         >
           1H
         </button>
         <button
-          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          className={`p-2 rounded-xl ${
+            timeRange === "6H" ? styleActivate : ""
+          }`}
           onClick={() => handleTimeRangeChange("6H")}
         >
           6H
         </button>
         <button
-          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          className={`p-2 rounded-xl ${
+            timeRange === "1D" ? styleActivate : ""
+          }`}
           onClick={() => handleTimeRangeChange("1D")}
         >
           1D
         </button>
         <button
-          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          className={`p-2 rounded-xl ${
+            timeRange === "1S" ? styleActivate : ""
+          }`}
           onClick={() => handleTimeRangeChange("1S")}
         >
           1S
         </button>
         <button
-          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          className={`p-2 rounded-xl ${
+            timeRange === "1M" ? styleActivate : ""
+          }`}
           onClick={() => handleTimeRangeChange("1M")}
         >
           1M
         </button>
         <button
-          className="p-2 rounded-lg active:bg-secondary active:text-white"
+          className={`p-2 rounded-xl ${
+            timeRange === "ALL" ? styleActivate : ""
+          }`}
           onClick={() => handleTimeRangeChange("ALL")}
         >
           ALL
