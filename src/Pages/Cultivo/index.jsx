@@ -11,6 +11,8 @@ const Cultivo = () => {
           hour="08:21 AM"
           value="28"
           units="°C"
+          dataApi="temperatura"
+          sensor="scd40"
         />
         <CardSmartgrow
           text="Humedad"
@@ -18,6 +20,8 @@ const Cultivo = () => {
           hour="08:21 AM"
           value="28"
           units="%"
+          dataApi="humedad"
+          sensor="scd40"
         />
         <CardSmartgrow
           text="Dioxido de carbono"
@@ -25,6 +29,8 @@ const Cultivo = () => {
           hour="08:21 AM"
           value="116"
           units="ppm"
+          dataApi="co2"
+          sensor="scd40"
         />
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
@@ -41,6 +47,8 @@ const Cultivo = () => {
           hour="08:21 AM"
           value="96"
           units="%"
+          dataApi="VPD"
+          sensor="scd40"
         />
         <CardSmartgrow
           text="PPFD"

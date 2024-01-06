@@ -11,6 +11,8 @@ const Hidroponico = () => {
           hour="08:21 AM"
           value="28"
           units="°C"
+          dataApi="temperatura"
+          sensor="phec"
         />
         <CardSmartgrow
           text="PH"
@@ -18,6 +20,8 @@ const Hidroponico = () => {
           hour="08:21 AM"
           value="116"
           units=""
+          dataApi="ph"
+          sensor="phec"
         />
         <CardSmartgrow
           text="Conductividad Electrica"
@@ -25,6 +29,8 @@ const Hidroponico = () => {
           hour="08:21 AM"
           value="0.12"
           units="mS/cm"
+          dataApi="ec"
+          sensor="phec"
         />
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
@@ -34,6 +40,8 @@ const Hidroponico = () => {
           hour="08:21 AM"
           value="28.23"
           units="cm"
+          dataApi=""
+          sensor="phec"
         />
       </div>
     </LayaoutCards>

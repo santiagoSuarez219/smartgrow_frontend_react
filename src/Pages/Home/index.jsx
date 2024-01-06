@@ -12,8 +12,13 @@ import { Modal } from "../../Modal";
 import "./styles.css";
 
 function Home() {
-  const { openModalActuadores, openModalControl, openModalGrafica } =
-    useContext(SmartgrowContext);
+  const {
+    openModalActuadores,
+    openModalControl,
+    openModalGrafica,
+    valueModal,
+    sensorModal,
+  } = useContext(SmartgrowContext);
   return (
     <>
       <Navbar />
@@ -32,7 +37,7 @@ function Home() {
       )}
       {openModalGrafica && (
         <Modal>
-          <GraficaForm />
+          <GraficaForm text={valueModal} sensor={sensorModal} />
         </Modal>
       )}
     </>

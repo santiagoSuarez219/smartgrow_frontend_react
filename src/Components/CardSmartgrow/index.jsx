@@ -5,8 +5,9 @@ import { CiCalendar } from "react-icons/ci";
 
 import { SmartgrowContext } from "../../SmartgrowContext";
 
-const CardSmartgrow = ({ text, date, hour, value, units }) => {
-  const { setOpenModalGrafica } = useContext(SmartgrowContext);
+const CardSmartgrow = ({ text, date, hour, value, units, dataApi, sensor }) => {
+  const { setOpenModalGrafica, setValueModal, setSensorModal } =
+    useContext(SmartgrowContext);
 
   return (
     <div className="lg:w-[28rem] w-full h-96 lg:h-[28rem] bg-tertiary rounded-md lg:rounded-xl flex flex-col">
@@ -23,6 +24,8 @@ const CardSmartgrow = ({ text, date, hour, value, units }) => {
           className="hidden lg:flex absolute top-0 right-0 justify-center items-center bg-primary w-16 h-16 rounded-full m-4 cursor-pointer"
           onClick={() => {
             setOpenModalGrafica(true);
+            setValueModal(dataApi);
+            setSensorModal(sensor);
           }}
         >
           <HiArrowUpRight className="w-6 h-6" />
