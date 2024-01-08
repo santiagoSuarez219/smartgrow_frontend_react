@@ -85,10 +85,9 @@ const GraficaForm = ({ text, sensor }) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/${sensor}?data=${text}`
+        `http://200.122.207.134:8311/${sensor}?data=${text}`
       );
       const dataApi = await response.json();
-      console.log(dataApi);
       const transformedData = dataApi.map((item) => [
         new Date(item.fecha).getTime(),
         parseData(item),

@@ -40,19 +40,23 @@ function SmartgrowProvider({ children }) {
       setPpfd(data.PPFD);
       setVpd(data.VPD);
       setNivelAgua(data.nivel_agua);
-    } else if (topic === "smartgrow/actuadores") {
-      console.log(data.message);
     } else if (topic === "smartgrow/sensores/phec") {
       data = JSON.parse(data.message);
       setPh(data.ph);
       setEc(data.ec);
       setTemperaturaAgua(data.temperatura);
       console.log(data);
+    } else if (topic === "smartgrow/hidroponico/actuadores/estado") {
+      data = JSON.parse(data.message);
+      setStatusWaterInlet(!data.entrada_de_agua);
+      setStatusWaterOutlet(!data.salida_de_agua);
+      setStatusRecirculation(!data.recirculacion);
     }
   };
 
   useEffect(() => {
     mqttConnect();
+    FetchGetActuadores();
   }, []);
 
   useEffect(() => {
@@ -65,6 +69,30 @@ function SmartgrowProvider({ children }) {
       setStatusMqtt(false);
     }
   }, [message, connectStatus]);
+
+  const FetchGetActuadores = async () => {
+    try {
+      const response = await fetch(`http://200.122.207.134:8311/actuadores`);
+      const data = await response.json();
+      data.forEach((item) => ActualizarActuadores(item.text, item.estado));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const ActualizarActuadores = (item, status) => {
+    switch (item) {
+      case "salida de agua":
+        setStatusWaterOutlet(status);
+        break;
+      case "entrada de agua":
+        setStatusWaterInlet(status);
+        break;
+      case "recirculacion":
+        setStatusRecirculation(status);
+        break;
+    }
+  };
 
   return (
     <SmartgrowContext.Provider

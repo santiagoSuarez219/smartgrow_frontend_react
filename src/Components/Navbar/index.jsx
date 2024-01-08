@@ -8,6 +8,10 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 
 const NavBarDesktop = () => {
   const {
+    statusRecirculation,
+    statusWaterInlet,
+    statusWaterOutlet,
+    statusMqtt,
     openModalActuadores,
     setOpenModalActuadores,
     openModalControl,
@@ -68,19 +72,33 @@ const NavBarDesktop = () => {
         </ul>
         <div className="text-xl flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <HiCheck className="h-6 w-6 text-secondary" />
+            {statusWaterInlet && <HiCheck className="h-6 w-6 text-secondary" />}
+            {!statusWaterInlet && (
+              <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            )}
             <p className="text-primary">Entrada de agua</p>
           </div>
           <div className="flex items-center gap-2">
-            <HiCheck className="h-6 w-6 text-secondary" />
+            {statusWaterOutlet && (
+              <HiCheck className="h-6 w-6 text-secondary" />
+            )}
+            {!statusWaterOutlet && (
+              <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            )}
             <p className="text-primary">Salida de agua</p>
           </div>
           <div className="flex items-center gap-2">
-            <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            {statusRecirculation && (
+              <HiCheck className="h-6 w-6 text-secondary" />
+            )}
+            {!statusRecirculation && (
+              <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            )}
             <p className="text-primary">Recirculacion</p>
           </div>
           <div className="flex items-center gap-2">
-            <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            {statusMqtt && <HiCheck className="h-6 w-6 text-secondary" />}
+            {!statusMqtt && <HiMiniXMark className="h-6 w-6 text-quartiary" />}
             <p className="text-primary">MQTT</p>
           </div>
         </div>
