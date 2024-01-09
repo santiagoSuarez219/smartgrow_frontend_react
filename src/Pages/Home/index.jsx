@@ -6,7 +6,6 @@ import ActuadoresButtons from "../../Components/ActuadoresButtons";
 import SetPointForm from "../../Components/SetPointForm";
 import GraficaForm from "../../Components/GraficaForm";
 import TabBar from "../../Components/TabBar";
-import StatusBarFooter from "../../Components/StatusBarFooter";
 import { SmartgrowContext } from "../../SmartgrowContext";
 import { Modal } from "../../Modal";
 import "./styles.css";
@@ -23,7 +22,6 @@ function Home() {
     <>
       <Navbar />
       <StatusBars />
-      <StatusBarFooter />
       <TabBar />
       {openModalActuadores && (
         <Modal>
