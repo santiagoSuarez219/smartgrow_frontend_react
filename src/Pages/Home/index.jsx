@@ -18,6 +18,7 @@ function Home() {
     openModalGrafica,
     valueModal,
     sensorModal,
+    loadingModal,
   } = useContext(SmartgrowContext);
   return (
     <>

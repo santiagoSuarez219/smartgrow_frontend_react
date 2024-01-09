@@ -3,9 +3,12 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 
 import GraficaFormUI from "./GraficaFormUI";
 
+import LoadingModal from "../../Components/LoadingModal";
+
 const GraficaForm = ({ text, sensor }) => {
   const { setOpenModalGrafica } = useContext(SmartgrowContext);
   const [data, setData] = useState([]);
+  const [loadingModal, setLoadingModal] = useState(false);
   const [endDate, setEndDate] = useState();
   const [timeRange, setTimeRange] = useState("ALL");
   const [chartData, setChartData] = useState({
@@ -84,6 +87,7 @@ const GraficaForm = ({ text, sensor }) => {
 
   const fetchData = async () => {
     try {
+      setLoadingModal(true);
       const response = await fetch(
         `http://200.122.207.134:8311/${sensor}?data=${text}`
       );
@@ -109,6 +113,7 @@ const GraficaForm = ({ text, sensor }) => {
           },
         },
       }));
+      setLoadingModal(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -176,15 +181,21 @@ const GraficaForm = ({ text, sensor }) => {
   };
 
   return (
-    <GraficaFormUI
-      text={text}
-      sensor={sensor}
-      timeRange={timeRange}
-      chartData={chartData}
-      handleTimeRangeChange={handleTimeRangeChange}
-      fetchData={fetchData}
-      setOpenModalGrafica={setOpenModalGrafica}
-    />
+    <>
+      {loadingModal ? (
+        <LoadingModal />
+      ) : (
+        <GraficaFormUI
+          text={text}
+          sensor={sensor}
+          timeRange={timeRange}
+          chartData={chartData}
+          handleTimeRangeChange={handleTimeRangeChange}
+          fetchData={fetchData}
+          setOpenModalGrafica={setOpenModalGrafica}
+        />
+      )}
+    </>
   );
 };
 
