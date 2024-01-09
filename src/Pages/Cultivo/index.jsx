@@ -33,9 +33,9 @@ const Cultivo = () => {
     nombresMesAbreviados[lastDateScd40.getMonth()]
   } ${lastDateScd40.getFullYear()}`;
 
-  const hour = `${formatDate(
-    lastDateScd40.getHours()
-  )}:${lastDateScd40.getMinutes()}`;
+  const hour = `${formatDate(lastDateScd40.getHours())}:${formatDate(
+    lastDateScd40.getMinutes()
+  )}`;
 
   return (
     <LayaoutCards>
@@ -81,7 +81,7 @@ const Cultivo = () => {
           date={date}
           hour={hour}
           value={vpd}
-          units="%"
+          units="Kpa"
           dataApi="VPD"
           sensor="scd40"
         />

@@ -17,13 +17,10 @@ const ModalButtons = (callback) => {
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: "¡Activando!",
-        text: "Estamos activando la entrada de agua",
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading();
-        },
+        title: "¡Listo!",
+        text: "Activada",
+        icon: "success",
+        confirmButtonColor: "#6A994E",
       }).then(() => {
         Swal.fire({
           title: "¡Listo!",
@@ -60,7 +57,6 @@ const ActuadoresButtons = () => {
       <div className="flex flex-col w-2/5 h-4/5 gap-4">
         <h2 className="text-lg lg:text-2xl text-center">Entrada de agua</h2>
         <button
-          // className="h-full flex justify-center items-center bg-primary rounded-lg hover:bg-primary/90"
           className={`h-full flex justify-center items-center rounded-lg ${
             statusWaterInlet ? styleActivate : deactivateActivate
           }`}

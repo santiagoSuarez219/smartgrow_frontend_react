@@ -1,14 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { SmartgrowContext } from "../../SmartgrowContext";
 import { HiXMark } from "react-icons/hi2";
 
 import Swal from "sweetalert2";
 
 const SetPointForm = () => {
-  const { setOpenModalControl, setSetPointPh, setPointEc } =
-    useContext(SmartgrowContext);
+  const { setOpenModalControl, mqttPublish } = useContext(SmartgrowContext);
 
-  const [setPointLabel, setSetPointLabel] = useState("");
+  const context = (payload) => {
+    return {
+      topic: "smartgrow/hidroponico/control",
+      qos: 0,
+      payload,
+    };
+  };
+
+  const [setPointLabel, setSetPointLabel] = useState("ph");
+  const [value, setValue] = React.useState("");
   const [newValue, setNewValue] = React.useState("");
 
   const onSubmit = (event) => {
@@ -19,13 +27,70 @@ const SetPointForm = () => {
     setNewValue(event.target.value);
   };
 
-  const onCancel = () => {
-    setOpenModalControl(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://200.122.207.134:8311/setpoints");
+        const data = await response.json();
+        if (setPointLabel === "ph") {
+          setValue(data[0].ph);
+        } else {
+          setValue(data[0].ec);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [setPointLabel]);
+
+  const sendSetPoint = async () => {
+    try {
+      const response = await fetch(
+        "http://200.122.207.134:8311/setpoints/659d94574bf0b60a1b465b89",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            [setPointLabel]: newValue,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Error al realizar la solicitud PUT");
+      }
+      const responseData = await response.json();
+      mqttPublish(context(`{${setPointLabel}:${newValue}}`));
+    } catch (error) {
+      console.error("Error al actualizar los datos:", error);
+    }
+  };
+
+  const validateEmpyValue = () => {
+    if (newValue === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "El valor del SetPoint esta vacio",
+      });
+    } else {
+      Swal.fire({
+        title: "¡Listo!",
+        text: "El valor del PH fue enviado",
+        icon: "success",
+        confirmButtonColor: "#6A994E",
+      }).then(() => {
+        sendSetPoint();
+        setOpenModalControl(false);
+      });
+    }
   };
 
   return (
     <form
-      className="w-full h-64 px-4 pt-4 lg:p-6 fixed left-0 bottom-16 bg-white   rounded-t-md shadow flex flex-col gap-4 lg:relative lg:w-1/3 lg:h-1/3 lg:rounded-xl lg:justify-center"
+      className="w-full h-64 px-4 pt-4 lg:p-6 fixed left-0 bottom-16 bg-white rounded-t-md shadow flex flex-col gap-4 lg:relative lg:w-1/3 lg:h-1/3 lg:rounded-xl lg:justify-center"
       onSubmit={onSubmit}
     >
       <div className="lg:flex lg:flex-col lg:gap-4">
@@ -44,7 +109,7 @@ const SetPointForm = () => {
       </div>
       <div className="w-full flex flex-col">
         <p className="text-xs lg:text-xl text-primary">
-          El valor actual es 0.32
+          El valor actual es {value}
         </p>
         <input
           type="number"
@@ -71,24 +136,7 @@ const SetPointForm = () => {
               confirmButtonText: "Si, modificar",
             }).then((result) => {
               if (result.isConfirmed) {
-                Swal.fire({
-                  title: "¡Cambiando el valor del PH!",
-                  text: "Estamos cambiando el valor del PH",
-                  timer: 2000,
-                  timerProgressBar: true,
-                  didOpen: () => {
-                    Swal.showLoading();
-                  },
-                }).then(() => {
-                  Swal.fire({
-                    title: "¡Listo!",
-                    text: "El valor del PH fue modificado",
-                    icon: "success",
-                    confirmButtonColor: "#6A994E",
-                  }).then(() => {
-                    setOpenModalControl(false);
-                  });
-                });
+                validateEmpyValue();
               }
             });
           }}

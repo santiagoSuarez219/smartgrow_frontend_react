@@ -33,16 +33,16 @@ function SmartgrowProvider({ children }) {
 
   const handleMqttMessage = (data) => {
     const topic = data.topic;
-    if (topic === "smartgrow/sensores") {
+    if (topic === "smartgrow/sensores/scd40") {
       data = JSON.parse(data.message);
-      setTemperatura(data.temperatura);
-      setHumedad(data.humedad);
-      setCo2(data.co2);
-      setVpd(data.VPD);
-      setLastDateScd40(formatDateInit(new Date(), -5));
+      setTemperatura(parseFloat(data.temperatura).toFixed(2));
+      setHumedad(parseFloat(data.humedad).toFixed(2));
+      setCo2(parseFloat(data.co2).toFixed(0));
+      setVpd(parseFloat(data.VPD).toFixed(2));
+      setLastDateScd40(formatDateInit(new Date(), 0));
     } else if (topic === "smartgrow/sensores/phec") {
       data = JSON.parse(data.message);
-      setPh(parseFloat(data.ph).toFixed(2));
+      setPh();
       setEc(parseFloat(data.ec).toFixed(1));
       setTemperaturaAgua(parseFloat(data.temperatura).toFixed(2));
       setLastDatePhEc(formatDateInit(new Date(), -5));
