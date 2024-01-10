@@ -1,8 +1,12 @@
+import Swal from "sweetalert2";
+
 const useUtilsSetPointForm = (
   setValue,
   setPointLabel,
   newValue,
-  mqttPublish
+  mqttPublish,
+  setOpenModal,
+  openModal
 ) => {
   const fetchData = async () => {
     try {
@@ -49,7 +53,47 @@ const useUtilsSetPointForm = (
     }
   };
 
-  return { fetchData, sendSetPoint };
+  const validateAndSend = async () => {
+    if (newValue === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "El valor del SetPoint esta vacio",
+      });
+    } else {
+      await confirmAndSend(
+        `¿Está seguro de que desea modificar el valor del SetPoint de ${setPointLabel}?`
+      );
+    }
+  };
+
+  const confirmAndSend = async (confirmationMessage) => {
+    const result = await Swal.fire({
+      title: "Confirmación",
+      text: confirmationMessage,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#6A994E",
+      cancelButtonColor: "#BC4749",
+      confirmButtonText: "Sí, continuar",
+    });
+
+    if (result.isConfirmed) {
+      await Swal.fire({
+        title: "¡Listo!",
+        text: `El valor del ${setPointLabel} fue enviado`,
+        icon: "success",
+        confirmButtonColor: "#6A994E",
+      });
+      await sendSetPoint();
+      setOpenModal({
+        ...openModal,
+        control: false,
+      });
+    }
+  };
+
+  return { fetchData, validateAndSend };
 };
 
 export { useUtilsSetPointForm };

@@ -3,8 +3,6 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 import { HiXMark } from "react-icons/hi2";
 import { useUtilsSetPointForm } from "./useUtilsSetPointForm";
 
-import Swal from "sweetalert2";
-
 const SetPointForm = () => {
   const { setOpenModal, openModal, mqttPublish } = useContext(SmartgrowContext);
 
@@ -12,11 +10,13 @@ const SetPointForm = () => {
   const [value, setValue] = React.useState("");
   const [newValue, setNewValue] = React.useState("");
 
-  const { fetchData, sendSetPoint } = useUtilsSetPointForm(
+  const { fetchData, validateAndSend } = useUtilsSetPointForm(
     setValue,
     setPointLabel,
     newValue,
-    mqttPublish
+    mqttPublish,
+    setOpenModal,
+    openModal
   );
 
   const onSubmit = async (event) => {
@@ -35,46 +35,6 @@ const SetPointForm = () => {
   useEffect(() => {
     fetchData();
   }, [setPointLabel]);
-
-  const validateAndSend = async () => {
-    if (newValue === "") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "El valor del SetPoint esta vacio",
-      });
-    } else {
-      await confirmAndSend(
-        `¿Está seguro de que desea modificar el valor del SetPoint de ${setPointLabel}?`
-      );
-    }
-  };
-
-  const confirmAndSend = async (confirmationMessage) => {
-    const result = await Swal.fire({
-      title: "Confirmación",
-      text: confirmationMessage,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#6A994E",
-      cancelButtonColor: "#BC4749",
-      confirmButtonText: "Sí, continuar",
-    });
-
-    if (result.isConfirmed) {
-      await Swal.fire({
-        title: "¡Listo!",
-        text: `El valor del ${setPointLabel} fue enviado`,
-        icon: "success",
-        confirmButtonColor: "#6A994E",
-      });
-      await sendSetPoint();
-      setOpenModal({
-        ...openModal,
-        control: false,
-      });
-    }
-  };
 
   return (
     <form
