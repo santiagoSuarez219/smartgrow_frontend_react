@@ -1,14 +1,32 @@
-import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-
+import { NavLink } from "react-router-dom";
 import { HiCheck } from "react-icons/hi2";
 import { HiMiniXMark } from "react-icons/hi2";
-
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const NavBar = () => {
   const { statusSystem, openModal, setOpenModal } =
     useContext(SmartgrowContext);
+
+  const handleToggleModal = (modal) => {
+    setOpenModal({
+      ...openModal,
+      actuadores: modal === "actuadores" ? !openModal.actuadores : false,
+      control: modal === "control" ? !openModal.control : false,
+    });
+  };
+
+  const renderStatusItem = (status, label) => (
+    <div className="flex items-center gap-2">
+      {status ? (
+        <HiCheck className="h-6 w-6 text-secondary" />
+      ) : (
+        <HiMiniXMark className="h-6 w-6 text-quartiary" />
+      )}
+      <p className="text-primary">{label}</p>
+    </div>
+  );
+
   const activeStyle = "underline underline-offset-2";
   return (
     <>
@@ -22,7 +40,9 @@ const NavBar = () => {
           <li>
             <NavLink
               to="/"
-              className={({ isActive }) => (isActive ? activeStyle : undefined)}
+              className={({ isActive }) =>
+                isActive ? "underline underline-offset-2" : undefined
+              }
             >
               <h2 className="font-medium text-primary text-xl">Cultivo</h2>
             </NavLink>
@@ -32,7 +52,7 @@ const NavBar = () => {
               to="/hidroponico"
               className={({ isActive }) =>
                 isActive && !openModal.actuadores && !openModal.control
-                  ? activeStyle
+                  ? "underline underline-offset-2"
                   : undefined
               }
             >
@@ -40,28 +60,20 @@ const NavBar = () => {
             </NavLink>
           </li>
           <li
-            className={openModal.actuadores ? activeStyle : undefined}
-            onClick={() => {
-              setOpenModal({
-                ...openModal,
-                actuadores: !openModal.actuadores,
-                control: false,
-              });
-            }}
+            className={
+              openModal.actuadores ? "underline underline-offset-2" : undefined
+            }
+            onClick={() => handleToggleModal("actuadores")}
           >
             <h2 className="font-medium text-primary text-xl cursor-pointer">
               Actuadores
             </h2>
           </li>
           <li
-            className={openModal.control ? activeStyle : undefined}
-            onClick={() => {
-              setOpenModal({
-                ...openModal,
-                actuadores: false,
-                control: !openModal.control,
-              });
-            }}
+            className={
+              openModal.control ? "underline underline-offset-2" : undefined
+            }
+            onClick={() => handleToggleModal("control")}
           >
             <h2 className="font-medium text-primary text-xl cursor-pointer">
               Control
@@ -69,42 +81,10 @@ const NavBar = () => {
           </li>
         </ul>
         <div className="text-xl flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            {statusSystem.entrada && (
-              <HiCheck className="h-6 w-6 text-secondary" />
-            )}
-            {!statusSystem.entrada && (
-              <HiMiniXMark className="h-6 w-6 text-quartiary" />
-            )}
-            <p className="text-primary">Entrada de agua</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {statusSystem.salida && (
-              <HiCheck className="h-6 w-6 text-secondary" />
-            )}
-            {!statusSystem.salida && (
-              <HiMiniXMark className="h-6 w-6 text-quartiary" />
-            )}
-            <p className="text-primary">Salida de agua</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {statusSystem.recirculacion && (
-              <HiCheck className="h-6 w-6 text-secondary" />
-            )}
-            {!statusSystem.recirculacion && (
-              <HiMiniXMark className="h-6 w-6 text-quartiary" />
-            )}
-            <p className="text-primary">Recirculacion</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {statusSystem.mqtt && (
-              <HiCheck className="h-6 w-6 text-secondary" />
-            )}
-            {!statusSystem.mqtt && (
-              <HiMiniXMark className="h-6 w-6 text-quartiary" />
-            )}
-            <p className="text-primary">MQTT</p>
-          </div>
+          {renderStatusItem(statusSystem.entrada, "Entrada de agua")}
+          {renderStatusItem(statusSystem.salida, "Salida de agua")}
+          {renderStatusItem(statusSystem.recirculacion, "Recirculacion")}
+          {renderStatusItem(statusSystem.mqtt, "MQTT")}
         </div>
       </nav>
     </>
