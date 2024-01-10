@@ -49,6 +49,7 @@ const Hidroponico = () => {
           units="°C"
           dataApi="temperatura"
           sensor="phec"
+          image={"./img/cannabis4.jpg"}
         />
         <CardSmartgrow
           text="PH"
@@ -58,6 +59,7 @@ const Hidroponico = () => {
           units=""
           dataApi="ph"
           sensor="phec"
+          image={"./img/cannabis5.jpg"}
         />
         <CardSmartgrow
           text="Conductividad Electrica"
@@ -67,6 +69,7 @@ const Hidroponico = () => {
           units="mS/cm"
           dataApi="ec"
           sensor="phec"
+          image={"./img/cannabis6.jpg"}
         />
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
@@ -78,6 +81,7 @@ const Hidroponico = () => {
           units="cm"
           dataApi=""
           sensor="phec"
+          image={"./img/cannabis7.jpg"}
         />
       </div>
     </LayaoutCards>

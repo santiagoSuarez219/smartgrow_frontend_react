@@ -48,6 +48,7 @@ const Cultivo = () => {
           units="°C"
           dataApi="temperatura"
           sensor="scd40"
+          image="./img/cannabis10.jpg"
         />
         <CardSmartgrow
           text="Humedad"
@@ -57,6 +58,7 @@ const Cultivo = () => {
           units="%"
           dataApi="humedad"
           sensor="scd40"
+          image="./img/cannabis9.jpg"
         />
         <CardSmartgrow
           text="Dioxido de carbono"
@@ -66,6 +68,7 @@ const Cultivo = () => {
           units="ppm"
           dataApi="co2"
           sensor="scd40"
+          image="./img/cannabis8.jpg"
         />
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
@@ -75,6 +78,7 @@ const Cultivo = () => {
           hour=""
           value=""
           units="umol"
+          image="./img/cannabis.jpg"
         />
         <CardSmartgrow
           text="VPD"
@@ -84,6 +88,7 @@ const Cultivo = () => {
           units="Kpa"
           dataApi="VPD"
           sensor="scd40"
+          image="./img/cannabis2.jpg"
         />
         <CardSmartgrow
           text="PPFD"
@@ -91,6 +96,7 @@ const Cultivo = () => {
           hour=""
           value=""
           units="umol*m2"
+          image="./img/cannabis3.jpg"
         />
       </div>
     </LayaoutCards>

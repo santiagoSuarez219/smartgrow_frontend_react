@@ -5,7 +5,16 @@ import { CiCalendar } from "react-icons/ci";
 
 import { SmartgrowContext } from "../../SmartgrowContext";
 
-const CardSmartgrow = ({ text, date, hour, value, units, dataApi, sensor }) => {
+const CardSmartgrow = ({
+  text,
+  date,
+  hour,
+  value,
+  units,
+  dataApi,
+  sensor,
+  image,
+}) => {
   const { setOpenModalGrafica, setValueModal, setSensorModal } =
     useContext(SmartgrowContext);
 
@@ -17,7 +26,7 @@ const CardSmartgrow = ({ text, date, hour, value, units, dataApi, sensor }) => {
         </span>
         <img
           className="w-full h-full rounded-t-md lg:rounded-t-xl"
-          src="./img/temperatura.jpg"
+          src={image}
           alt="temperatura"
         />
         <div
