@@ -5,8 +5,7 @@ import LayaoutCards from "../../Components/LayaoutCards";
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const Cultivo = () => {
-  const { temperatura, humedad, co2, vpd, lastDateScd40 } =
-    useContext(SmartgrowContext);
+  const { sensorData, lastDates } = useContext(SmartgrowContext);
   const nombresMesAbreviados = [
     "Ene",
     "Feb",
@@ -29,12 +28,12 @@ const Cultivo = () => {
     return value;
   };
 
-  const date = `${formatDate(lastDateScd40.getDate())} ${
-    nombresMesAbreviados[lastDateScd40.getMonth()]
-  } ${lastDateScd40.getFullYear()}`;
+  const date = `${formatDate(lastDates.scd40.getDate())} ${
+    nombresMesAbreviados[lastDates.scd40.getMonth()]
+  } ${lastDates.scd40.getFullYear()}`;
 
-  const hour = `${formatDate(lastDateScd40.getHours())}:${formatDate(
-    lastDateScd40.getMinutes()
+  const hour = `${formatDate(lastDates.scd40.getHours())}:${formatDate(
+    lastDates.scd40.getMinutes()
   )}`;
 
   return (
@@ -44,7 +43,7 @@ const Cultivo = () => {
           text="Temperatura"
           date={date}
           hour={hour}
-          value={temperatura}
+          value={sensorData.temperatura}
           units="°C"
           dataApi="temperatura"
           sensor="scd40"
@@ -54,7 +53,7 @@ const Cultivo = () => {
           text="Humedad"
           date={date}
           hour={hour}
-          value={humedad}
+          value={sensorData.humedad}
           units="%"
           dataApi="humedad"
           sensor="scd40"
@@ -64,7 +63,7 @@ const Cultivo = () => {
           text="Dioxido de carbono"
           date={date}
           hour={hour}
-          value={co2}
+          value={sensorData.co2}
           units="ppm"
           dataApi="co2"
           sensor="scd40"
@@ -84,7 +83,7 @@ const Cultivo = () => {
           text="VPD"
           date={date}
           hour={hour}
-          value={vpd}
+          value={sensorData.vpd}
           units="Kpa"
           dataApi="VPD"
           sensor="scd40"

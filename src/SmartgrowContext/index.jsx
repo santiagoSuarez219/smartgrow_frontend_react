@@ -7,16 +7,18 @@ function SmartgrowProvider({ children }) {
   const { message, connectStatus, mqttConnect, mqttPublish } =
     useMqtt("smartgrow/#");
 
-  const [temperatura, setTemperatura] = useState(null);
-  const [humedad, setHumedad] = useState(null);
-  const [co2, setCo2] = useState(null);
-  const [ppf, setPpf] = useState(null);
-  const [ppfd, setPpfd] = useState(null);
-  const [vpd, setVpd] = useState(null);
-  const [temperaturaAgua, setTemperaturaAgua] = useState(null);
-  const [ph, setPh] = useState(null);
-  const [ec, setEc] = useState(null);
-  const [nivelAgua, setNivelAgua] = useState(null);
+  const [sensorData, setSensorData] = useState({
+    temperatura: null,
+    humedad: null,
+    co2: null,
+    vpd: null,
+    ph: null,
+    ec: null,
+    temperaturaAgua: null,
+    ppf: null,
+    ppfd: null,
+    nivelAgua: null,
+  });
   const [statusWaterInlet, setStatusWaterInlet] = useState(false);
   const [statusWaterOutlet, setStatusWaterOutlet] = useState(false);
   const [statusRecirculation, setStatusRecirculation] = useState(false);
@@ -28,24 +30,19 @@ function SmartgrowProvider({ children }) {
   const [openModalGrafica, setOpenModalGrafica] = useState(false);
   const [valueModal, setValueModal] = useState("");
   const [sensorModal, setSensorModal] = useState("");
-  const [lastDateScd40, setLastDateScd40] = useState(new Date());
-  const [lastDatePhEc, setLastDatePhEc] = useState(new Date());
+  const [lastDates, setLastDates] = useState({
+    scd40: new Date(),
+    phEc: new Date(),
+  });
 
   const handleMqttMessage = (data) => {
     const topic = data.topic;
     if (topic === "smartgrow/sensores/scd40") {
       data = JSON.parse(data.message);
-      setTemperatura(parseFloat(data.temperatura).toFixed(2));
-      setHumedad(parseFloat(data.humedad).toFixed(2));
-      setCo2(parseFloat(data.co2).toFixed(0));
-      setVpd(parseFloat(data.VPD).toFixed(2));
-      setLastDateScd40(formatDateInit(new Date(), 0));
+      handleScd40Message(data);
     } else if (topic === "smartgrow/sensores/phec") {
       data = JSON.parse(data.message);
-      setPh(parseFloat(data.ph).toFixed(2));
-      setEc(parseFloat(data.ec).toFixed(1));
-      setTemperaturaAgua(parseFloat(data.temperatura).toFixed(2));
-      setLastDatePhEc(formatDateInit(new Date(), -5));
+      handlePhEcMessage(data);
     } else if (topic === "smartgrow/hidroponico/actuadores/estado") {
       data = JSON.parse(data.message);
       setStatusWaterInlet(!data.entrada_de_agua);
@@ -53,6 +50,30 @@ function SmartgrowProvider({ children }) {
       setStatusRecirculation(!data.recirculacion);
     }
   };
+
+  const handleScd40Message = (data) => {
+    setSensorData({
+      ...sensorData,
+      temperatura: parseValue(data.temperatura, 2),
+      humedad: parseValue(data.humedad, 2),
+      co2: parseValue(data.co2, 0),
+      vpd: parseValue(data.VPD, 2),
+    });
+    setLastDates({ ...lastDates, scd40: formatDateInit(new Date(), 0) });
+  };
+
+  const handlePhEcMessage = (data) => {
+    setSensorData({
+      ...sensorData,
+      ph: parseValue(data.ph, 2),
+      ec: parseValue(data.ec, 1),
+      temperaturaAgua: parseValue(data.temperatura, 2),
+    });
+    setLastDates({ ...lastDates, phEc: formatDateInit(new Date(), -5) });
+  };
+
+  const parseValue = (value, decimalPlaces) =>
+    parseFloat(value).toFixed(decimalPlaces);
 
   useEffect(() => {
     mqttConnect();
@@ -91,15 +112,21 @@ function SmartgrowProvider({ children }) {
         "http://200.122.207.134:8311/phec/last_data"
       );
       const dataPhEc = await responsePhEc.json();
-      setTemperatura(parseFloat(dataScd40[0].temperatura).toFixed(2));
-      setHumedad(parseFloat(dataScd40[0].humedad).toFixed(2));
-      setCo2(parseFloat(dataScd40[0].co2));
-      setVpd(parseFloat(dataScd40[0].VPD).toFixed(2));
-      setLastDateScd40(formatDateInit(new Date(dataScd40[0].fecha), 5));
-      setPh(parseFloat(dataPhEc[0].ph).toFixed(2));
-      setEc(parseFloat(dataPhEc[0].ec).toFixed(1));
-      setTemperaturaAgua(parseFloat(dataPhEc[0].temperatura).toFixed(2));
-      setLastDatePhEc(new Date(dataPhEc[0].fecha));
+      setSensorData({
+        ...sensorData,
+        temperatura: parseValue(dataScd40[0].temperatura, 2),
+        humedad: parseValue(dataScd40[0].humedad, 2),
+        co2: parseValue(dataScd40[0].co2, 0),
+        vpd: parseValue(dataScd40[0].VPD, 2),
+        ph: parseValue(dataPhEc[0].ph, 2),
+        ec: parseValue(dataPhEc[0].ec, 1),
+        temperaturaAgua: parseValue(dataPhEc[0].temperatura, 2),
+      });
+      setLastDates({
+        ...lastDates,
+        scd40: formatDateInit(new Date(dataScd40[0].fecha), 5),
+        phEc: formatDateInit(new Date(dataPhEc[0].fecha), 0),
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -127,16 +154,7 @@ function SmartgrowProvider({ children }) {
   return (
     <SmartgrowContext.Provider
       value={{
-        temperatura,
-        humedad,
-        co2,
-        ppf,
-        ppfd,
-        vpd,
-        temperaturaAgua,
-        ph,
-        ec,
-        nivelAgua,
+        sensorData,
         statusWaterInlet,
         statusWaterOutlet,
         statusRecirculation,
@@ -156,8 +174,7 @@ function SmartgrowProvider({ children }) {
         setOpenModalGrafica,
         sensorModal,
         setSensorModal,
-        lastDateScd40,
-        lastDatePhEc,
+        lastDates,
       }}
     >
       {children}

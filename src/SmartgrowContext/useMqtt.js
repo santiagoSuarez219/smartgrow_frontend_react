@@ -1,55 +1,60 @@
 import { useState, useEffect } from "react";
 import mqtt from "mqtt";
 
-const useMqtt = (topic) => {
+const useMqtt = (initialTopic) => {
   const [client, setClient] = useState(null);
   const [message, setMessage] = useState(null);
   const [connectStatus, setConnectStatus] = useState(false);
+  const [subscribedTopics, setSubscribedTopics] = useState([]);
 
-  const mqttBrokerUrl = "ws://200.122.207.134:8314/mqtt"; //8314
+  const mqttBrokerUrl = "ws://200.122.207.134:8314/mqtt";
   //200.122.207.134
 
   const mqttConnect = () => {
     setConnectStatus("Connecting");
-    setClient(mqtt.connect(mqttBrokerUrl));
+    const newClient = mqtt.connect(mqttBrokerUrl);
+
+    newClient.on("connect", () => {
+      setConnectStatus(true);
+      newClient.subscribe(initialTopic);
+      console.log("Connection successful");
+    });
+
+    newClient.on("error", (err) => {
+      console.error("Connection error: ", err);
+      newClient.end();
+      setConnectStatus(false);
+    });
+
+    newClient.on("reconnect", () => {
+      setConnectStatus(false);
+    });
+
+    newClient.on("message", (topic, message) => {
+      const data = { topic, message: message.toString() };
+      setMessage(data);
+      console.log(`Received message: ${message} from topic: ${topic}`);
+    });
+
+    setClient(newClient);
   };
 
-  useEffect(() => {
+  const mqttSubscribe = (newTopic) => {
     if (client) {
-      client.on("connect", () => {
-        setConnectStatus(true);
-        client.subscribe(topic);
-        client.subscribe("smartgrow/actuadores");
-        console.log("connection successful");
-      });
-
-      client.on("error", (err) => {
-        console.error("Connection error: ", err);
-        client.end();
-        setConnectStatus(false);
-      });
-
-      client.on("reconnect", () => {
-        setConnectStatus(false);
-      });
-
-      client.on("message", (topic, message) => {
-        const data = { topic, message: message.toString() };
-        setMessage(data);
-        console.log(`received message: ${message} from topic: ${topic}`);
-      });
+      client.subscribe(newTopic);
+      setSubscribedTopics([...subscribedTopics, newTopic]);
     }
-  }, [client]);
+  };
 
   const mqttDisconnect = () => {
     if (client) {
       try {
         client.end(false, () => {
           setConnectStatus(false);
-          console.log("disconnected successfully");
+          console.log("Disconnected successfully");
         });
       } catch (error) {
-        console.log("disconnect error:", error);
+        console.log("Disconnect error:", error);
       }
     }
   };
@@ -67,7 +72,23 @@ const useMqtt = (topic) => {
     }
   };
 
-  return { message, connectStatus, mqttConnect, mqttPublish };
+  useEffect(() => {
+    return () => {
+      if (client) {
+        client.end();
+      }
+    };
+  }, [client]);
+
+  return {
+    message,
+    connectStatus,
+    subscribedTopics,
+    mqttConnect,
+    mqttSubscribe,
+    mqttDisconnect,
+    mqttPublish,
+  };
 };
 
 export { useMqtt };

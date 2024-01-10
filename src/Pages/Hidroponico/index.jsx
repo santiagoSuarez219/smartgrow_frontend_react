@@ -5,8 +5,7 @@ import LayaoutCards from "../../Components/LayaoutCards";
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const Hidroponico = () => {
-  const { temperaturaAgua, ph, ec, lastDatePhEc } =
-    useContext(SmartgrowContext);
+  const { sensorData, lastDates } = useContext(SmartgrowContext);
 
   const nombresMesAbreviados = [
     "Ene",
@@ -30,12 +29,12 @@ const Hidroponico = () => {
     return value;
   };
 
-  const date = `${formatDate(lastDatePhEc.getDate())} ${
-    nombresMesAbreviados[lastDatePhEc.getMonth()]
-  } ${lastDatePhEc.getFullYear()}`;
+  const date = `${formatDate(lastDates.phEc.getDate())} ${
+    nombresMesAbreviados[lastDates.phEc.getMonth()]
+  } ${lastDates.phEc.getFullYear()}`;
 
-  const hour = `${formatDate(lastDatePhEc.getHours() + 5)}:${formatDate(
-    lastDatePhEc.getMinutes()
+  const hour = `${formatDate(lastDates.phEc.getHours() + 5)}:${formatDate(
+    lastDates.phEc.getMinutes()
   )}`;
 
   return (
@@ -45,7 +44,7 @@ const Hidroponico = () => {
           text="Temperatura del agua"
           date={date}
           hour={hour}
-          value={temperaturaAgua}
+          value={sensorData.temperaturaAgua}
           units="°C"
           dataApi="temperatura"
           sensor="phec"
@@ -55,7 +54,7 @@ const Hidroponico = () => {
           text="PH"
           date={date}
           hour={hour}
-          value={ph}
+          value={sensorData.ph}
           units=""
           dataApi="ph"
           sensor="phec"
@@ -65,7 +64,7 @@ const Hidroponico = () => {
           text="Conductividad Electrica"
           date={date}
           hour={hour}
-          value={ec}
+          value={sensorData.ec}
           units="mS/cm"
           dataApi="ec"
           sensor="phec"
