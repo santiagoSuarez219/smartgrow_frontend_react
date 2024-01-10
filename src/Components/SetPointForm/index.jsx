@@ -1,26 +1,31 @@
 import React, { useContext, useState, useEffect } from "react";
 import { SmartgrowContext } from "../../SmartgrowContext";
 import { HiXMark } from "react-icons/hi2";
+import { useUtilsSetPointForm } from "./useUtilsSetPointForm";
 
 import Swal from "sweetalert2";
 
 const SetPointForm = () => {
   const { setOpenModal, openModal, mqttPublish } = useContext(SmartgrowContext);
 
-  const context = (payload) => {
-    return {
-      topic: "smartgrow/hidroponico/control",
-      qos: 0,
-      payload,
-    };
-  };
-
   const [setPointLabel, setSetPointLabel] = useState("ph");
   const [value, setValue] = React.useState("");
   const [newValue, setNewValue] = React.useState("");
 
-  const onSubmit = (event) => {
+  const { fetchData, sendSetPoint } = useUtilsSetPointForm(
+    setValue,
+    setPointLabel,
+    newValue,
+    mqttPublish
+  );
+
+  const onSubmit = async (event) => {
     event.preventDefault();
+    try {
+      await validateAndSend();
+    } catch (error) {
+      console.error("Error al enviar el SetPoint:", error);
+    }
   };
 
   const onChange = (event) => {
@@ -28,47 +33,10 @@ const SetPointForm = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://200.122.207.134:8311/setpoints");
-        const data = await response.json();
-        if (setPointLabel === "ph") {
-          setValue(data[0].ph);
-        } else {
-          setValue(data[0].ec);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     fetchData();
   }, [setPointLabel]);
 
-  const sendSetPoint = async () => {
-    try {
-      const response = await fetch(
-        "http://200.122.207.134:8311/setpoints/659d94574bf0b60a1b465b89",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            [setPointLabel]: newValue,
-          }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Error al realizar la solicitud PUT");
-      }
-      const responseData = await response.json();
-      mqttPublish(context(`{${setPointLabel}:${newValue}}`));
-    } catch (error) {
-      console.error("Error al actualizar los datos:", error);
-    }
-  };
-
-  const validateEmpyValue = () => {
+  const validateAndSend = async () => {
     if (newValue === "") {
       Swal.fire({
         icon: "error",
@@ -76,17 +44,34 @@ const SetPointForm = () => {
         text: "El valor del SetPoint esta vacio",
       });
     } else {
-      Swal.fire({
+      await confirmAndSend(
+        `¿Está seguro de que desea modificar el valor del SetPoint de ${setPointLabel}?`
+      );
+    }
+  };
+
+  const confirmAndSend = async (confirmationMessage) => {
+    const result = await Swal.fire({
+      title: "Confirmación",
+      text: confirmationMessage,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#6A994E",
+      cancelButtonColor: "#BC4749",
+      confirmButtonText: "Sí, continuar",
+    });
+
+    if (result.isConfirmed) {
+      await Swal.fire({
         title: "¡Listo!",
-        text: "El valor del PH fue enviado",
+        text: `El valor del ${setPointLabel} fue enviado`,
         icon: "success",
         confirmButtonColor: "#6A994E",
-      }).then(() => {
-        sendSetPoint();
-        setOpenModal({
-          ...openModal,
-          control: false,
-        });
+      });
+      await sendSetPoint();
+      setOpenModal({
+        ...openModal,
+        control: false,
       });
     }
   };
@@ -128,21 +113,6 @@ const SetPointForm = () => {
         <button
           type="submit"
           className="w-1/2 border-2 lg:border-3 border-primary p-2 rounded-md text-sm lg:text-2xl text-secondary lg:hover:bg-primary lg:hover:text-white"
-          onClick={() => {
-            Swal.fire({
-              title: "¿Estas seguro?",
-              text: "Vas a modificar el valor del setpoint de PH",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#6A994E",
-              cancelButtonColor: "#BC4749",
-              confirmButtonText: "Si, modificar",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                validateEmpyValue();
-              }
-            });
-          }}
         >
           Enviar
         </button>
