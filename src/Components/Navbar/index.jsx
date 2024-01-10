@@ -7,14 +7,8 @@ import { HiMiniXMark } from "react-icons/hi2";
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const NavBar = () => {
-  const {
-    statusRecirculation,
-    statusWaterInlet,
-    statusWaterOutlet,
-    statusMqtt,
-    openModal,
-    setOpenModal,
-  } = useContext(SmartgrowContext);
+  const { statusSystem, openModal, setOpenModal } =
+    useContext(SmartgrowContext);
   const activeStyle = "underline underline-offset-2";
   return (
     <>
@@ -76,33 +70,39 @@ const NavBar = () => {
         </ul>
         <div className="text-xl flex items-center gap-6">
           <div className="flex items-center gap-2">
-            {statusWaterInlet && <HiCheck className="h-6 w-6 text-secondary" />}
-            {!statusWaterInlet && (
+            {statusSystem.entrada && (
+              <HiCheck className="h-6 w-6 text-secondary" />
+            )}
+            {!statusSystem.entrada && (
               <HiMiniXMark className="h-6 w-6 text-quartiary" />
             )}
             <p className="text-primary">Entrada de agua</p>
           </div>
           <div className="flex items-center gap-2">
-            {statusWaterOutlet && (
+            {statusSystem.salida && (
               <HiCheck className="h-6 w-6 text-secondary" />
             )}
-            {!statusWaterOutlet && (
+            {!statusSystem.salida && (
               <HiMiniXMark className="h-6 w-6 text-quartiary" />
             )}
             <p className="text-primary">Salida de agua</p>
           </div>
           <div className="flex items-center gap-2">
-            {statusRecirculation && (
+            {statusSystem.recirculacion && (
               <HiCheck className="h-6 w-6 text-secondary" />
             )}
-            {!statusRecirculation && (
+            {!statusSystem.recirculacion && (
               <HiMiniXMark className="h-6 w-6 text-quartiary" />
             )}
             <p className="text-primary">Recirculacion</p>
           </div>
           <div className="flex items-center gap-2">
-            {statusMqtt && <HiCheck className="h-6 w-6 text-secondary" />}
-            {!statusMqtt && <HiMiniXMark className="h-6 w-6 text-quartiary" />}
+            {statusSystem.mqtt && (
+              <HiCheck className="h-6 w-6 text-secondary" />
+            )}
+            {!statusSystem.mqtt && (
+              <HiMiniXMark className="h-6 w-6 text-quartiary" />
+            )}
             <p className="text-primary">MQTT</p>
           </div>
         </div>

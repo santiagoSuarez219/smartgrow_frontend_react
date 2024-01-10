@@ -11,7 +11,7 @@ const useMqtt = (initialTopic) => {
   //200.122.207.134
 
   const mqttConnect = () => {
-    setConnectStatus("Connecting");
+    setConnectStatus(true);
     const newClient = mqtt.connect(mqttBrokerUrl);
 
     newClient.on("connect", () => {
