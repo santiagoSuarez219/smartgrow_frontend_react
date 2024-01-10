@@ -42,7 +42,7 @@ function SmartgrowProvider({ children }) {
       setLastDateScd40(formatDateInit(new Date(), 0));
     } else if (topic === "smartgrow/sensores/phec") {
       data = JSON.parse(data.message);
-      setPh();
+      setPh(parseFloat(data.ph).toFixed(2));
       setEc(parseFloat(data.ec).toFixed(1));
       setTemperaturaAgua(parseFloat(data.temperatura).toFixed(2));
       setLastDatePhEc(formatDateInit(new Date(), -5));
