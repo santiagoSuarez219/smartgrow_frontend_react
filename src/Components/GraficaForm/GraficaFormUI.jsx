@@ -4,7 +4,6 @@ import { HiOutlineX } from "react-icons/hi";
 const GraficaFormUI = ({
   timeRange,
   handleTimeRangeChange,
-  fetchData,
   chartData,
   setOpenModal,
   openModal,
@@ -61,15 +60,6 @@ const GraficaFormUI = ({
             onClick={() => handleTimeRangeChange("ALL")}
           >
             ALL
-          </button>
-        </div>
-        <div className="p-2 border-2 border-primary rounded-xl hover:bg-primary hover:text-white">
-          <button
-            onClick={() => {
-              fetchData();
-            }}
-          >
-            Actualizar
           </button>
         </div>
       </div>
