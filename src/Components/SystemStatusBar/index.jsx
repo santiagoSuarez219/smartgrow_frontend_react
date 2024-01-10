@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { HiCheck } from "react-icons/hi";
 import { HiOutlineX } from "react-icons/hi";
