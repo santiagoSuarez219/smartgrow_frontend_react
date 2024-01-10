@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useMqtt } from "./useMqtt";
+import { parseValue } from "./contextUtils";
 
 const SmartgrowContext = createContext();
 
@@ -72,8 +73,8 @@ function SmartgrowProvider({ children }) {
     setLastDates({ ...lastDates, phEc: formatDateInit(new Date(), -5) });
   };
 
-  const parseValue = (value, decimalPlaces) =>
-    parseFloat(value).toFixed(decimalPlaces);
+  // const parseValue = (value, decimalPlaces) =>
+  //   parseFloat(value).toFixed(decimalPlaces);
 
   useEffect(() => {
     mqttConnect();
