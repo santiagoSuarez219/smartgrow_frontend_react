@@ -8,12 +8,7 @@ import { GrPowerCycle } from "react-icons/gr";
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const TabBar = () => {
-  const {
-    openModalActuadores,
-    setOpenModalActuadores,
-    openModalControl,
-    setOpenModalControl,
-  } = useContext(SmartgrowContext);
+  const { openModal, setOpenModal } = useContext(SmartgrowContext);
   const activeStyle = "text-primary flex flex-col items-center";
   const deactiveStyle = "text-primary/50 flex flex-col items-center";
   return (
@@ -21,13 +16,16 @@ const TabBar = () => {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          isActive && !openModalActuadores && !openModalControl
+          isActive && !openModal.actuadores && !openModal.control
             ? activeStyle
             : deactiveStyle
         }
         onClick={() => {
-          setOpenModalActuadores(false);
-          setOpenModalControl(false);
+          setOpenModal({
+            ...openModal,
+            actuadores: false,
+            control: false,
+          });
         }}
       >
         <HiHome className="w-6 h-6" />
@@ -36,33 +34,42 @@ const TabBar = () => {
       <NavLink
         to="/hidroponico"
         className={({ isActive }) =>
-          isActive && !openModalActuadores && !openModalControl
+          isActive && !openModal.actuadores && !openModal.control
             ? activeStyle
             : deactiveStyle
         }
         onClick={() => {
-          setOpenModalActuadores(false);
-          setOpenModalControl(false);
+          setOpenModal({
+            ...openModal,
+            actuadores: false,
+            control: false,
+          });
         }}
       >
         <RiPlantFill className="w-6 h-6" />
         <p className="text-base">Hidroponico</p>
       </NavLink>
       <div
-        className={openModalActuadores ? activeStyle : deactiveStyle}
+        className={openModal.actuadores ? activeStyle : deactiveStyle}
         onClick={() => {
-          setOpenModalActuadores((state) => !state);
-          setOpenModalControl(false);
+          setOpenModal({
+            ...openModal,
+            actuadores: !openModal.actuadores,
+            control: false,
+          });
         }}
       >
         <FaPowerOff className="w-6 h-6" />
         <p className="text-base">Actuadores</p>
       </div>
       <div
-        className={openModalControl ? activeStyle : deactiveStyle}
+        className={openModal.control ? activeStyle : deactiveStyle}
         onClick={() => {
-          setOpenModalControl((state) => !state);
-          setOpenModalActuadores(false);
+          setOpenModal({
+            ...openModal,
+            actuadores: false,
+            control: !openModal.control,
+          });
         }}
       >
         <GrPowerCycle className="w-6 h-6" />

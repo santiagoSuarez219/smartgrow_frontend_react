@@ -4,6 +4,8 @@ import { parseValue } from "./contextUtils";
 
 const SmartgrowContext = createContext();
 
+const API_BASE_URL = "http://200.122.207.134:8311";
+
 function SmartgrowProvider({ children }) {
   const { message, connectStatus, mqttConnect, mqttPublish } =
     useMqtt("smartgrow/#");
@@ -20,15 +22,20 @@ function SmartgrowProvider({ children }) {
     ppfd: null,
     nivelAgua: null,
   });
-  const [statusWaterInlet, setStatusWaterInlet] = useState(false);
-  const [statusWaterOutlet, setStatusWaterOutlet] = useState(false);
-  const [statusRecirculation, setStatusRecirculation] = useState(false);
+
+  const [statusSystem, setStatusSystem] = useState({
+    entrada: false,
+    salida: false,
+    recirculacion: false,
+  });
+
+  const [openModal, setOpenModal] = useState({
+    actuadores: false,
+    control: false,
+    grafica: false,
+  });
+
   const [statusMqtt, setStatusMqtt] = useState(false);
-  const [setPointPh, setSetPointPh] = useState(0);
-  const [setPointEc, setSetPointEc] = useState(0);
-  const [openModalActuadores, setOpenModalActuadores] = useState(false);
-  const [openModalControl, setOpenModalControl] = useState(false);
-  const [openModalGrafica, setOpenModalGrafica] = useState(false);
   const [valueModal, setValueModal] = useState("");
   const [sensorModal, setSensorModal] = useState("");
   const [lastDates, setLastDates] = useState({
@@ -39,16 +46,11 @@ function SmartgrowProvider({ children }) {
   const handleMqttMessage = (data) => {
     const topic = data.topic;
     if (topic === "smartgrow/sensores/scd40") {
-      data = JSON.parse(data.message);
-      handleScd40Message(data);
+      handleScd40Message(JSON.parse(data.message));
     } else if (topic === "smartgrow/sensores/phec") {
-      data = JSON.parse(data.message);
-      handlePhEcMessage(data);
+      handlePhEcMessage(JSON.parse(data.message));
     } else if (topic === "smartgrow/hidroponico/actuadores/estado") {
-      data = JSON.parse(data.message);
-      setStatusWaterInlet(!data.entrada_de_agua);
-      setStatusWaterOutlet(!data.salida_de_agua);
-      setStatusRecirculation(!data.recirculacion);
+      handleActuadoresMessage(JSON.parse(data.message));
     }
   };
 
@@ -73,8 +75,13 @@ function SmartgrowProvider({ children }) {
     setLastDates({ ...lastDates, phEc: formatDateInit(new Date(), -5) });
   };
 
-  // const parseValue = (value, decimalPlaces) =>
-  //   parseFloat(value).toFixed(decimalPlaces);
+  const handleActuadoresMessage = (data) => {
+    setStatusSystem({
+      entrada: !data.entrada_de_agua,
+      salida: !data.salida_de_agua,
+      recirculacion: !data.recirculacion,
+    });
+  };
 
   useEffect(() => {
     mqttConnect();
@@ -95,9 +102,9 @@ function SmartgrowProvider({ children }) {
 
   const FetchGetActuadores = async () => {
     try {
-      const response = await fetch(`http://200.122.207.134:8311/actuadores`);
+      const response = await fetch(`${API_BASE_URL}/actuadores`);
       const data = await response.json();
-      data.forEach((item) => ActualizarActuadores(item.text, item.estado));
+      data.forEach(({ text, estado }) => updateActuadores(text, estado));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -105,13 +112,9 @@ function SmartgrowProvider({ children }) {
 
   const FetchGetData = async () => {
     try {
-      const responseScd40 = await fetch(
-        "http://200.122.207.134:8311/scd40/last_data"
-      );
+      const responseScd40 = await fetch(`${API_BASE_URL}/scd40/last_data`);
       const dataScd40 = await responseScd40.json();
-      const responsePhEc = await fetch(
-        "http://200.122.207.134:8311/phec/last_data"
-      );
+      const responsePhEc = await fetch(`${API_BASE_URL}/phec/last_data`);
       const dataPhEc = await responsePhEc.json();
       setSensorData({
         ...sensorData,
@@ -138,16 +141,18 @@ function SmartgrowProvider({ children }) {
     return date;
   };
 
-  const ActualizarActuadores = (item, status) => {
+  const updateActuadores = (item, status) => {
     switch (item) {
       case "salida de agua":
-        setStatusWaterOutlet(status);
+        setStatusSystem((prev) => ({ ...prev, entrada: status }));
         break;
       case "entrada de agua":
-        setStatusWaterInlet(status);
+        setStatusSystem((prev) => ({ ...prev, salida: status }));
         break;
       case "recirculacion":
-        setStatusRecirculation(status);
+        setStatusSystem((prev) => ({ ...prev, recirculacion: status }));
+        break;
+      default:
         break;
     }
   };
@@ -156,23 +161,13 @@ function SmartgrowProvider({ children }) {
     <SmartgrowContext.Provider
       value={{
         sensorData,
-        statusWaterInlet,
-        statusWaterOutlet,
-        statusRecirculation,
+        statusSystem,
         statusMqtt,
-        setPointPh,
-        setSetPointPh,
-        setPointEc,
-        setSetPointEc,
         mqttPublish,
-        openModalActuadores,
-        setOpenModalActuadores,
-        openModalControl,
-        setOpenModalControl,
+        openModal,
+        setOpenModal,
         valueModal,
         setValueModal,
-        openModalGrafica,
-        setOpenModalGrafica,
         sensorModal,
         setSensorModal,
         lastDates,

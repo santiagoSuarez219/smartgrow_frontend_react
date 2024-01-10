@@ -5,7 +5,7 @@ import { HiXMark } from "react-icons/hi2";
 import Swal from "sweetalert2";
 
 const SetPointForm = () => {
-  const { setOpenModalControl, mqttPublish } = useContext(SmartgrowContext);
+  const { setOpenModal, openModal, mqttPublish } = useContext(SmartgrowContext);
 
   const context = (payload) => {
     return {
@@ -83,7 +83,10 @@ const SetPointForm = () => {
         confirmButtonColor: "#6A994E",
       }).then(() => {
         sendSetPoint();
-        setOpenModalControl(false);
+        setOpenModal({
+          ...openModal,
+          control: false,
+        });
       });
     }
   };
@@ -147,7 +150,10 @@ const SetPointForm = () => {
       <span
         className="hidden lg:block absolute -right-5 -top-5 bg-quartiary rounded-full p-1 cursor-pointer hover:bg-quartiary/90"
         onClick={() => {
-          setOpenModalControl(false);
+          setOpenModal({
+            ...openModal,
+            control: false,
+          });
         }}
       >
         <HiXMark className="w-12 h-12" />

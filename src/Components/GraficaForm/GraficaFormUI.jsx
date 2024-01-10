@@ -6,7 +6,8 @@ const GraficaFormUI = ({
   handleTimeRangeChange,
   fetchData,
   chartData,
-  setOpenModalGrafica,
+  setOpenModal,
+  openModal,
 }) => {
   const styleActivate = "bg-secondary text-white";
   return (
@@ -84,7 +85,10 @@ const GraficaFormUI = ({
       <HiOutlineX
         className="w-12 h-12 p-2 bg-red-500 text-white cursor-pointer rounded-full absolute -right-5 -top-5 "
         onClick={() => {
-          setOpenModalGrafica(false);
+          setOpenModal({
+            ...openModal,
+            grafica: false,
+          });
         }}
       />
     </div>

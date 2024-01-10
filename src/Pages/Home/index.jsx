@@ -11,29 +11,23 @@ import { Modal } from "../../Modal";
 import "./styles.css";
 
 function Home() {
-  const {
-    openModalActuadores,
-    openModalControl,
-    openModalGrafica,
-    valueModal,
-    sensorModal,
-  } = useContext(SmartgrowContext);
+  const { openModal, valueModal, sensorModal } = useContext(SmartgrowContext);
   return (
     <>
       <Navbar />
       <StatusBars />
       <TabBar />
-      {openModalActuadores && (
+      {openModal.actuadores && (
         <Modal>
           <ActuadoresButtons />
         </Modal>
       )}
-      {openModalControl && (
+      {openModal.control && (
         <Modal>
           <SetPointForm />
         </Modal>
       )}
-      {openModalGrafica && (
+      {openModal.grafica && (
         <Modal>
           <GraficaForm text={valueModal} sensor={sensorModal} />
         </Modal>

@@ -6,16 +6,14 @@ import { HiMiniXMark } from "react-icons/hi2";
 
 import { SmartgrowContext } from "../../SmartgrowContext";
 
-const NavBarDesktop = () => {
+const NavBar = () => {
   const {
     statusRecirculation,
     statusWaterInlet,
     statusWaterOutlet,
     statusMqtt,
-    openModalActuadores,
-    setOpenModalActuadores,
-    openModalControl,
-    setOpenModalControl,
+    openModal,
+    setOpenModal,
   } = useContext(SmartgrowContext);
   const activeStyle = "underline underline-offset-2";
   return (
@@ -39,7 +37,7 @@ const NavBarDesktop = () => {
             <NavLink
               to="/hidroponico"
               className={({ isActive }) =>
-                isActive && !openModalActuadores && !openModalControl
+                isActive && !openModal.actuadores && !openModal.control
                   ? activeStyle
                   : undefined
               }
@@ -48,10 +46,13 @@ const NavBarDesktop = () => {
             </NavLink>
           </li>
           <li
-            className={openModalActuadores ? activeStyle : undefined}
+            className={openModal.actuadores ? activeStyle : undefined}
             onClick={() => {
-              setOpenModalActuadores((state) => !state);
-              setOpenModalControl(false);
+              setOpenModal({
+                ...openModal,
+                actuadores: !openModal.actuadores,
+                control: false,
+              });
             }}
           >
             <h2 className="font-medium text-primary text-xl cursor-pointer">
@@ -59,10 +60,13 @@ const NavBarDesktop = () => {
             </h2>
           </li>
           <li
-            className={openModalControl ? activeStyle : undefined}
+            className={openModal.control ? activeStyle : undefined}
             onClick={() => {
-              setOpenModalControl((state) => !state);
-              setOpenModalActuadores(false);
+              setOpenModal({
+                ...openModal,
+                actuadores: false,
+                control: !openModal.control,
+              });
             }}
           >
             <h2 className="font-medium text-primary text-xl cursor-pointer">
@@ -107,4 +111,4 @@ const NavBarDesktop = () => {
   );
 };
 
-export default NavBarDesktop;
+export default NavBar;

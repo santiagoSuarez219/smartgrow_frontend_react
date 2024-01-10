@@ -15,7 +15,7 @@ const CardSmartgrow = ({
   sensor,
   image,
 }) => {
-  const { setOpenModalGrafica, setValueModal, setSensorModal } =
+  const { setOpenModal, openModal, setValueModal, setSensorModal } =
     useContext(SmartgrowContext);
 
   return (
@@ -32,7 +32,10 @@ const CardSmartgrow = ({
         <div
           className="hidden lg:flex absolute top-0 right-0 justify-center items-center bg-primary w-16 h-16 rounded-full m-4 cursor-pointer"
           onClick={() => {
-            setOpenModalGrafica(true);
+            setOpenModal({
+              ...openModal,
+              grafica: true,
+            });
             setValueModal(dataApi);
             setSensorModal(sensor);
           }}

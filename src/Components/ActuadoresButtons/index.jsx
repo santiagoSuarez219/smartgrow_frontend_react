@@ -5,43 +5,47 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 
 import Swal from "sweetalert2";
 
-const ModalButtons = (callback) => {
-  Swal.fire({
-    title: "¿Estas seguro?",
-    text: "Vas a activar la entrada de agua",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#6A994E",
-    cancelButtonColor: "#BC4749",
-    confirmButtonText: "Si, activar",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: "¡Listo!",
-        text: "Activada",
-        icon: "success",
-        confirmButtonColor: "#6A994E",
-      }).then(() => {
-        Swal.fire({
-          title: "¡Listo!",
-          text: "El valor del PH fue modificado",
-          icon: "success",
-          confirmButtonColor: "#6A994E",
-        }).then(() => {
-          callback(false);
-        });
-      });
-    }
-  });
-};
-
 const ActuadoresButtons = () => {
   const {
-    setOpenModalActuadores,
+    setOpenModal,
+    openModal,
     mqttPublish,
     statusWaterInlet,
     statusWaterOutlet,
   } = useContext(SmartgrowContext);
+
+  const ModalButtons = () => {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Vas a activar la entrada de agua",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#6A994E",
+      cancelButtonColor: "#BC4749",
+      confirmButtonText: "Si, activar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "¡Listo!",
+          text: "Activada",
+          icon: "success",
+          confirmButtonColor: "#6A994E",
+        }).then(() => {
+          Swal.fire({
+            title: "¡Listo!",
+            text: "El valor del PH fue modificado",
+            icon: "success",
+            confirmButtonColor: "#6A994E",
+          }).then(() => {
+            setOpenModal({
+              ...openModal,
+              actuadores: false,
+            });
+          });
+        });
+      }
+    });
+  };
 
   const context = (payload) => {
     return {
@@ -61,7 +65,7 @@ const ActuadoresButtons = () => {
             statusWaterInlet ? styleActivate : deactivateActivate
           }`}
           onClick={() => {
-            ModalButtons(setOpenModalActuadores);
+            ModalButtons();
             mqttPublish(context("entrada_de_agua_hidroponico"));
           }}
         >
@@ -75,7 +79,7 @@ const ActuadoresButtons = () => {
             statusWaterOutlet ? styleActivate : deactivateActivate
           }`}
           onClick={() => {
-            ModalButtons(setOpenModalActuadores);
+            ModalButtons();
             mqttPublish(context("desague_hidroponico"));
           }}
         >
@@ -85,7 +89,10 @@ const ActuadoresButtons = () => {
       <span
         className="hidden lg:block absolute -right-5 -top-5 bg-quartiary rounded-full p-1 cursor-pointer hover:bg-quartiary/90"
         onClick={() => {
-          setOpenModalActuadores(false);
+          setOpenModal({
+            ...openModal,
+            actuadores: false,
+          });
         }}
       >
         <HiXMark className="w-12 h-12" />

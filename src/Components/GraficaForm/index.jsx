@@ -6,7 +6,7 @@ import GraficaFormUI from "./GraficaFormUI";
 import LoadingModal from "../../Components/LoadingModal";
 
 const GraficaForm = ({ text, sensor }) => {
-  const { setOpenModalGrafica } = useContext(SmartgrowContext);
+  const { setOpenModal, openModal } = useContext(SmartgrowContext);
   const [data, setData] = useState([]);
   const [loadingModal, setLoadingModal] = useState(true);
   const [endDate, setEndDate] = useState();
@@ -185,13 +185,14 @@ const GraficaForm = ({ text, sensor }) => {
       {loadingModal && <LoadingModal />}
       {!loadingModal && (
         <GraficaFormUI
-          text={text}
-          sensor={sensor}
+          // text={text}
+          // sensor={sensor}
           timeRange={timeRange}
           chartData={chartData}
           handleTimeRangeChange={handleTimeRangeChange}
           fetchData={fetchData}
-          setOpenModalGrafica={setOpenModalGrafica}
+          setOpenModal={setOpenModal}
+          openModal={openModal}
         />
       )}
     </>
