@@ -1,49 +1,21 @@
 import { useContext } from "react";
 import CardSmartgrow from "../../Components/CardSmartgrow";
 import LayaoutCards from "../../Components/LayaoutCards";
+import { formatDateTime } from "../../Utils";
 
 import { SmartgrowContext } from "../../SmartgrowContext";
 
 const Hidroponico = () => {
   const { sensorData, lastDates } = useContext(SmartgrowContext);
-
-  const nombresMesAbreviados = [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dic",
-  ];
-
-  const formatDate = (value) => {
-    if (value < 10) {
-      return `0${value}`;
-    }
-    return value;
-  };
-
-  const date = `${formatDate(lastDates.phEc.getDate())} ${
-    nombresMesAbreviados[lastDates.phEc.getMonth()]
-  } ${lastDates.phEc.getFullYear()}`;
-
-  const hour = `${formatDate(lastDates.phEc.getHours() + 5)}:${formatDate(
-    lastDates.phEc.getMinutes()
-  )}`;
+  const { formattedDate, formattedHour } = formatDateTime(lastDates.scd40);
 
   return (
     <LayaoutCards>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
         <CardSmartgrow
           text="Temperatura del agua"
-          date={date}
-          hour={hour}
+          date={formattedDate}
+          hour={formattedHour}
           value={sensorData.temperaturaAgua}
           units="°C"
           dataApi="temperatura"
@@ -52,8 +24,8 @@ const Hidroponico = () => {
         />
         <CardSmartgrow
           text="PH"
-          date={date}
-          hour={hour}
+          date={formattedDate}
+          hour={formattedHour}
           value={sensorData.ph}
           units=""
           dataApi="ph"
@@ -62,8 +34,8 @@ const Hidroponico = () => {
         />
         <CardSmartgrow
           text="Conductividad Electrica"
-          date={date}
-          hour={hour}
+          date={formattedDate}
+          hour={formattedHour}
           value={sensorData.ec}
           units="mS/cm"
           dataApi="ec"
