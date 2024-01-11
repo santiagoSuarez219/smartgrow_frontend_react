@@ -6,6 +6,7 @@ import ActuadoresButtons from "../../Components/ActuadoresButtons";
 import SetPointForm from "../../Components/SetPointForm";
 import GraficaForm from "../../Components/GraficaForm";
 import TabBar from "../../Components/TabBar";
+import LoadingModal from "../../Components/LoadingModal";
 import { SmartgrowContext } from "../../SmartgrowContext";
 import { Modal } from "../../Modal";
 import "./styles.css";
@@ -30,6 +31,11 @@ function Home() {
       {openModal.grafica && (
         <Modal>
           <GraficaForm text={valueModal} sensor={sensorModal} />
+        </Modal>
+      )}
+      {openModal.loading && (
+        <Modal>
+          <LoadingModal sensor={sensorModal} text={valueModal} />
         </Modal>
       )}
     </>

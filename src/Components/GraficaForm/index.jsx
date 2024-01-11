@@ -4,18 +4,14 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 import GraficaFormUI from "./GraficaFormUI";
 import { useUtilsGraficaForm } from "./useUtilsGraficaForm";
 
-import LoadingModal from "../../Components/LoadingModal";
-
 const GraficaForm = ({ text, sensor }) => {
-  const { setOpenModal, openModal } = useContext(SmartgrowContext);
-  const [data, setData] = useState([]);
-  const [loadingModal, setLoadingModal] = useState(true);
-  const [endDate, setEndDate] = useState();
+  const { setOpenModal, openModal, dataGrafica, setDataGrafica } =
+    useContext(SmartgrowContext);
   const [timeRange, setTimeRange] = useState("ALL");
   const [chartData, setChartData] = useState({
     series: [
       {
-        data: [],
+        data: dataGrafica.transformedData,
       },
     ],
     options: {
@@ -26,6 +22,9 @@ const GraficaForm = ({ text, sensor }) => {
         },
         toolbar: {
           show: true,
+        },
+        animation: {
+          enabled: false,
         },
       },
       colors: ["#6A994E"],
@@ -38,7 +37,7 @@ const GraficaForm = ({ text, sensor }) => {
       },
       xaxis: {
         type: "datetime",
-        min: new Date("01 Mar 2021").getTime(),
+        min: dataGrafica.initDate,
         tickAmount: 6,
         labels: {
           style: {
@@ -81,26 +80,13 @@ const GraficaForm = ({ text, sensor }) => {
       },
     },
   });
-  const { fetchData, getTimeRangeMiliseconds } = useUtilsGraficaForm(
-    setLoadingModal,
-    text,
-    sensor,
-    setEndDate,
-    setData,
-    setChartData,
-    endDate
-  );
-
-  console.log(loadingModal);
-
-  useEffect(() => {
-    fetchData();
-  }, [sensor, text]);
+  const { getTimeRangeMiliseconds } = useUtilsGraficaForm(dataGrafica.endDate);
 
   const handleTimeRangeChange = (timeRange) => {
     setTimeRange(timeRange);
-    const filteredData = data.filter(
-      (item) => endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
+    const filteredData = dataGrafica.transformedData.filter(
+      (item) =>
+        dataGrafica.endDate - item[0] <= getTimeRangeMiliseconds(timeRange)
     );
 
     setChartData((prevChartData) => ({
@@ -121,19 +107,14 @@ const GraficaForm = ({ text, sensor }) => {
   };
 
   return (
-    <>
-      {loadingModal && <LoadingModal />}
-      {!loadingModal && (
-        <GraficaFormUI
-          timeRange={timeRange}
-          chartData={chartData}
-          handleTimeRangeChange={handleTimeRangeChange}
-          fetchData={fetchData}
-          setOpenModal={setOpenModal}
-          openModal={openModal}
-        />
-      )}
-    </>
+    <GraficaFormUI
+      timeRange={timeRange}
+      chartData={chartData}
+      handleTimeRangeChange={handleTimeRangeChange}
+      setOpenModal={setOpenModal}
+      openModal={openModal}
+      setDataGrafica={setDataGrafica}
+    />
   );
 };
 

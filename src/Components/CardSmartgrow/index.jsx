@@ -34,7 +34,7 @@ const CardSmartgrow = ({
           onClick={() => {
             setOpenModal({
               ...openModal,
-              grafica: true,
+              loading: true,
             });
             setValueModal(dataApi);
             setSensorModal(sensor);

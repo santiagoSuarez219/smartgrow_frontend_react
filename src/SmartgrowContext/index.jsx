@@ -32,9 +32,15 @@ function SmartgrowProvider({ children }) {
     actuadores: false,
     control: false,
     grafica: false,
+    loading: false,
   });
 
   const [valueModal, setValueModal] = useState("");
+  const [dataGrafica, setDataGrafica] = useState({
+    transformedData: [],
+    endDate: new Date(),
+    initDate: new Date(),
+  });
   const [sensorModal, setSensorModal] = useState("");
   const [lastDates, setLastDates] = useState({
     scd40: new Date(),
@@ -79,6 +85,8 @@ function SmartgrowProvider({ children }) {
         sensorModal,
         setSensorModal,
         lastDates,
+        dataGrafica,
+        setDataGrafica,
       }}
     >
       {children}
