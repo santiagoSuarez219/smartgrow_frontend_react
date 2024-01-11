@@ -1,5 +1,4 @@
 import { useContext } from "react";
-
 import Navbar from "../../Components/Navbar";
 import StatusBars from "../../Components/StatusBars";
 import ActuadoresButtons from "../../Components/ActuadoresButtons";

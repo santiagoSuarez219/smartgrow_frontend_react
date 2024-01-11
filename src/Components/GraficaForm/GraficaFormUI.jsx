@@ -1,6 +1,5 @@
 import ReactApexChart from "react-apexcharts";
 import { HiOutlineX } from "react-icons/hi";
-import { useEffect, useState } from "react";
 
 const GraficaFormUI = ({
   timeRange,

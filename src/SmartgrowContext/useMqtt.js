@@ -7,8 +7,7 @@ const useMqtt = (initialTopic) => {
   const [connectStatus, setConnectStatus] = useState(false);
   const [subscribedTopics, setSubscribedTopics] = useState([]);
 
-  const mqttBrokerUrl = "ws://200.122.207.134:8314/mqtt";
-  //200.122.207.134
+  const mqttBrokerUrl = import.meta.env.VITE_BROKER_MQTT;
 
   const mqttConnect = () => {
     setConnectStatus(true);
@@ -17,7 +16,6 @@ const useMqtt = (initialTopic) => {
     newClient.on("connect", () => {
       setConnectStatus(true);
       newClient.subscribe(initialTopic);
-      console.log("Connection successful");
     });
 
     newClient.on("error", (err) => {
@@ -33,7 +31,6 @@ const useMqtt = (initialTopic) => {
     newClient.on("message", (topic, message) => {
       const data = { topic, message: message.toString() };
       setMessage(data);
-      console.log(`Received message: ${message} from topic: ${topic}`);
     });
 
     setClient(newClient);
@@ -51,7 +48,6 @@ const useMqtt = (initialTopic) => {
       try {
         client.end(false, () => {
           setConnectStatus(false);
-          console.log("Disconnected successfully");
         });
       } catch (error) {
         console.log("Disconnect error:", error);
@@ -65,8 +61,6 @@ const useMqtt = (initialTopic) => {
       client.publish(topic, payload, qos, (error) => {
         if (error) {
           console.log("Publish error: ", error);
-        } else {
-          console.log("Published successfully");
         }
       });
     }

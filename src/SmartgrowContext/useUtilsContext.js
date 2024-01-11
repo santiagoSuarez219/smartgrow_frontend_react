@@ -5,7 +5,7 @@ const useUtilsContext = (
   lastDates,
   setStatusSystem
 ) => {
-  const API_BASE_URL = "http://200.122.207.134:8311";
+  const API_BASE_URL = import.meta.env.VITE_BACKED_URL;
 
   const handleMqttMessage = (data) => {
     const topic = data.topic;
