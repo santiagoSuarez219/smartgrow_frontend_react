@@ -80,6 +80,7 @@ const GraficaForm = ({ text, sensor }) => {
       },
     },
   });
+  const [showComponent, setShowComponent] = useState(false);
   const { getTimeRangeMiliseconds } = useUtilsGraficaForm(dataGrafica.endDate);
 
   const handleTimeRangeChange = (timeRange) => {
@@ -106,15 +107,23 @@ const GraficaForm = ({ text, sensor }) => {
     }));
   };
 
+  useEffect(() => {
+    setShowComponent(true);
+  }, []);
+
   return (
-    <GraficaFormUI
-      timeRange={timeRange}
-      chartData={chartData}
-      handleTimeRangeChange={handleTimeRangeChange}
-      setOpenModal={setOpenModal}
-      openModal={openModal}
-      setDataGrafica={setDataGrafica}
-    />
+    <div>
+      {showComponent && (
+        <GraficaFormUI
+          timeRange={timeRange}
+          chartData={chartData}
+          handleTimeRangeChange={handleTimeRangeChange}
+          setOpenModal={setOpenModal}
+          openModal={openModal}
+          setDataGrafica={setDataGrafica}
+        />
+      )}
+    </div>
   );
 };
 

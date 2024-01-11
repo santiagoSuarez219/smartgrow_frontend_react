@@ -11,15 +11,6 @@ const GraficaFormUI = ({
   setDataGrafica,
 }) => {
   const styleActivate = "bg-secondary text-white";
-  const [showComponent, setShowComponent] = useState(false);
-  useEffect(() => {
-    const delay = 0.2;
-    const timer = setTimeout(() => {
-      setShowComponent(true);
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="w-auto h-auto p-4 relative bg-white rounded-lg shadow-lg flex flex-col space-y-2 justify-center items-center">
@@ -76,15 +67,13 @@ const GraficaFormUI = ({
         </div>
       </div>
       <div id="chart-timeline">
-        {showComponent && (
-          <ReactApexChart
-            options={chartData.options}
-            series={chartData.series}
-            type="line"
-            height={800}
-            width={1200}
-          />
-        )}
+        <ReactApexChart
+          options={chartData.options}
+          series={chartData.series}
+          type="line"
+          height={800}
+          width={1200}
+        />
       </div>
       <HiOutlineX
         className="w-12 h-12 p-2 bg-red-500 text-white cursor-pointer rounded-full absolute -right-5 -top-5 "
