@@ -13,8 +13,8 @@ const GraficaFormUI = ({
 
   return (
     <div className="w-auto h-auto p-4 relative bg-white rounded-lg shadow-lg flex flex-col space-y-2 justify-center items-center">
-      <div className="w-full text-xl pr-6 text-primary flex items-center justify-between">
-        <div className=" text-primary flex gap-6">
+      <div className="w-full text-sm pr-6 text-primary flex items-center justify-between">
+        <div className=" text-primary flex gap-4">
           <button
             className={`p-2 rounded-xl ${
               timeRange === "1H" ? styleActivate : ""
@@ -70,12 +70,12 @@ const GraficaFormUI = ({
           options={chartData.options}
           series={chartData.series}
           type="line"
-          height={800}
-          width={1200}
+          height={400}
+          width={800}
         />
       </div>
       <HiOutlineX
-        className="w-12 h-12 p-2 bg-red-500 text-white cursor-pointer rounded-full absolute -right-5 -top-5 "
+        className="w-10 h-10 p-2 bg-red-500 text-white cursor-pointer rounded-full absolute -right-5 -top-5 "
         onClick={() => {
           setOpenModal({
             ...openModal,

@@ -16,16 +16,20 @@ const GraficaForm = ({ text, sensor }) => {
     ],
     options: {
       chart: {
-        id: "area-dateTime",
+        type: "line",
+        stacked: false,
+        height: 350,
         zoom: {
+          type: "x",
+          enabled: true,
           autoScaleYaxis: true,
         },
         toolbar: {
-          show: true,
+          autoSelected: "zoom",
         },
-        animation: {
-          enabled: false,
-        },
+      },
+      stroke: {
+        width: 3,
       },
       colors: ["#6A994E"],
       dataLabels: {
@@ -33,7 +37,6 @@ const GraficaForm = ({ text, sensor }) => {
       },
       markers: {
         size: 0,
-        style: "hollow",
       },
       xaxis: {
         type: "datetime",
@@ -41,24 +44,24 @@ const GraficaForm = ({ text, sensor }) => {
         tickAmount: 6,
         labels: {
           style: {
-            fontSize: "16px",
+            fontSize: "12px",
           },
         },
       },
-      yaxis: {
-        labels: {
-          style: {
-            fontSize: "20px",
-          },
-        },
-      },
+      // yaxis: {
+      //   labels: {
+      //     style: {
+      //       fontSize: "12px",
+      //     },
+      //   },
+      // },
       tooltip: {
         x: {
           format: "dd MMM yyyy HH:mm",
         },
 
         style: {
-          fontSize: "16px",
+          fontSize: "12px",
         },
       },
       fill: {
@@ -73,10 +76,6 @@ const GraficaForm = ({ text, sensor }) => {
       title: {
         text: `Gráfica de ${text}`,
         align: "left",
-        style: {
-          fontSize: "24px",
-          color: "#6A994E",
-        },
       },
     },
   });
