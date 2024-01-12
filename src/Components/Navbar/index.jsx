@@ -19,9 +19,9 @@ const NavBar = () => {
   const renderStatusItem = (status, label) => (
     <div className="flex items-center gap-2">
       {status ? (
-        <HiCheck className="h-6 w-6 text-secondary" />
+        <HiCheck className="h-4 w-4 text-secondary" />
       ) : (
-        <HiMiniXMark className="h-6 w-6 text-quartiary" />
+        <HiMiniXMark className="h-4 w-4 text-quartiary" />
       )}
       <p className="text-primary">{label}</p>
     </div>
@@ -30,11 +30,11 @@ const NavBar = () => {
   const activeStyle = "underline underline-offset-2";
   return (
     <>
-      <nav className="hidden lg:flex w-full h-14 px-6 justify-between">
+      <nav className="hidden lg:flex w-full h-12 px-6 justify-between">
         <ul className="flex items-center gap-4">
           <li>
             <NavLink to="/">
-              <h1 className="font-bold text-primary text-2xl">Smartgrow</h1>
+              <h1 className="font-bold text-primary text-lg">Smartgrow</h1>
             </NavLink>
           </li>
           <li>
@@ -44,7 +44,7 @@ const NavBar = () => {
                 isActive ? "underline underline-offset-2" : undefined
               }
             >
-              <h2 className="font-medium text-primary text-xl">Cultivo</h2>
+              <h2 className="font-medium text-primary text-base">Cultivo</h2>
             </NavLink>
           </li>
           <li>
@@ -56,7 +56,9 @@ const NavBar = () => {
                   : undefined
               }
             >
-              <h2 className="font-medium text-primary text-xl">Hidroponico</h2>
+              <h2 className="font-medium text-primary text-base">
+                Hidroponico
+              </h2>
             </NavLink>
           </li>
           <li
@@ -65,7 +67,7 @@ const NavBar = () => {
             }
             onClick={() => handleToggleModal("actuadores")}
           >
-            <h2 className="font-medium text-primary text-xl cursor-pointer">
+            <h2 className="font-medium text-primary text-base cursor-pointer">
               Actuadores
             </h2>
           </li>
@@ -75,12 +77,12 @@ const NavBar = () => {
             }
             onClick={() => handleToggleModal("control")}
           >
-            <h2 className="font-medium text-primary text-xl cursor-pointer">
+            <h2 className="font-medium text-primary text-base cursor-pointer">
               Control
             </h2>
           </li>
         </ul>
-        <div className="text-xl flex items-center gap-6">
+        <div className="text-base flex items-center gap-6">
           {renderStatusItem(statusSystem.entrada, "Entrada de agua")}
           {renderStatusItem(statusSystem.salida, "Salida de agua")}
           {renderStatusItem(statusSystem.recirculacion, "Recirculacion")}
