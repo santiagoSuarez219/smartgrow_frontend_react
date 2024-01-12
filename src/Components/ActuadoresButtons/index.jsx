@@ -43,7 +43,7 @@ const ActuadoresButtons = () => {
 
   const renderActuatorButton = (text, status, payload) => (
     <div className={`w-2/5 h-4/5 flex flex-col gap-4`}>
-      <h2 className="text-lg lg:text-2xl text-center">{text}</h2>
+      <h2 className="text-lg lg:text-base text-center">{text}</h2>
       <button
         className={`h-full flex justify-center items-center rounded-lg ${
           status ? styleActivate : deactivateActivate
@@ -70,7 +70,7 @@ const ActuadoresButtons = () => {
         "desague_hidroponico"
       )}
       <span
-        className="hidden lg:block absolute -right-5 -top-5 bg-quartiary rounded-full p-1 cursor-pointer hover:bg-quartiary/90"
+        className="hidden lg:flex absolute w-10 h-10 justify-center items-center -right-4 -top-4 bg-quartiary rounded-full p-1 cursor-pointer hover:bg-quartiary/90"
         onClick={() => {
           setOpenModal({
             ...openModal,
@@ -78,7 +78,7 @@ const ActuadoresButtons = () => {
           });
         }}
       >
-        <HiXMark className="w-12 h-12" />
+        <HiXMark className="w-6 h-6" />
       </span>
     </div>
   );

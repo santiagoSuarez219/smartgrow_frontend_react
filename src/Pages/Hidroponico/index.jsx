@@ -11,7 +11,7 @@ const Hidroponico = () => {
 
   return (
     <LayaoutCards>
-      <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
+      <div className="w-full h-1/2 flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6 lg:pb-6">
         <CardSmartgrow
           text="Temperatura del agua"
           date={formattedDate}
@@ -43,7 +43,7 @@ const Hidroponico = () => {
           image={"./img/cannabis6.jpg"}
         />
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6">
+      <div className="w-full h-1/2 flex flex-col justify-center items-center gap-4 lg:flex lg:flex-row lg:gap-6 lg:pb-6">
         <CardSmartgrow
           text="Nivel de agua"
           date="Sin datos"
