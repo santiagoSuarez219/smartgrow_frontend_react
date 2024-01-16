@@ -7,7 +7,7 @@ import { SmartgrowContext } from "../../SmartgrowContext";
 
 const Hidroponico = () => {
   const { sensorData, lastDates } = useContext(SmartgrowContext);
-  const { formattedDate, formattedHour } = formatDateTime(lastDates.scd40);
+  const { formattedDate, formattedHour } = formatDateTime(lastDates.phEc);
 
   return (
     <LayaoutCards>

@@ -41,7 +41,7 @@ const useUtilsContext = (
       ec: parseValue(data.ec, 1),
       temperaturaAgua: parseValue(data.temperatura, 2),
     });
-    setLastDates({ ...lastDates, phEc: formatDateInit(new Date(), -5) });
+    setLastDates({ ...lastDates, phEc: formatDateInit(new Date(), 0) });
   };
 
   const handleActuadoresMessage = (data) => {
@@ -83,7 +83,7 @@ const useUtilsContext = (
       setLastDates({
         ...lastDates,
         scd40: formatDateInit(new Date(dataScd40[0].fecha), 5),
-        phEc: formatDateInit(new Date(dataPhEc[0].fecha), 0),
+        phEc: formatDateInit(new Date(dataPhEc[0].fecha), 5),
       });
     } catch (error) {
       console.error("Error fetching data:", error);
